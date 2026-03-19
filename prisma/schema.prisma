@@ -1,0 +1,111 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/infrastructure/prisma/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  COMMON
+  ADMIN
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(COMMON)
+  createdAt    DateTime @default(now())
+
+  categories      Category[]
+  goals           Goal[]
+  transactions    Transaction[]
+  contentProgress UserContentProgress[]
+
+  @@map("users")
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  userId    String   
+  name      String
+  color     String
+  createdAt DateTime @default(now())
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+
+  @@unique([userId, name])
+
+  @@map("categories")
+}
+
+model Goal {
+  id           String   @id @default(uuid())
+  userId       String
+  name         String
+  targetAmount Decimal  @db.Decimal(15, 2)
+  deadline     DateTime
+  createdAt    DateTime @default(now())
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+
+  @@map("goals")
+}
+
+model Transaction {
+  id              String          @id @default(uuid())
+  userId          String
+  categoryId      String?
+  goal_id         String?
+  type            TransactionType
+  amount          Decimal         @db.Decimal(15, 2)
+  description     String?
+  transactionDate DateTime
+  createdAt       DateTime        @default(now())
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  goal     Goal?     @relation(fields: [goal_id], references: [id], onDelete: SetNull)
+
+  @@map("transactions")
+}
+
+model EducationalContent {
+  id         String   @id @default(uuid())
+  title      String
+  category   String
+  contentUrl String
+  createdAt  DateTime @default(now())
+
+  userProgress UserContentProgress[]
+
+  @@map("educational_contents")
+}
+
+model UserContentProgress {
+  userId     String
+  contentId  String
+  accessedAt DateTime @default(now())
+
+  user    User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content EducationalContent @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  @@id([userId, contentId])
+  @@map("user_content_progress")
+}
