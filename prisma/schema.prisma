@@ -1,10 +1,15 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../src/infrastructure/prisma/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
 }
+
 
 enum Role {
   COMMON
@@ -36,11 +41,13 @@ model Category {
   id        String   @id @default(uuid())
   userId    String
   name      String
+  color     String
   createdAt DateTime @default(now())
 
   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   transactions Transaction[]
 
+  @@unique([userId, name])
   @@map("categories")
 }
 
@@ -99,3 +106,4 @@ model UserContentProgress {
   @@id([userId, contentId])
   @@map("user_content_progress")
 }
+

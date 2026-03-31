@@ -1,13 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import type { UserPayload } from '../../modules/users/users.types.js';
-import { AppError } from '../errors/AppError.js';
-
-declare module 'express-serve-static-core' {
-  interface Request {
-    user?: UserPayload;
-  }
-}
+import { AppError } from '../errors/AppError';
 
 export function authenticate(req: Request, _res: Response, next: NextFunction): void {
   const authHeader = req.headers.authorization;
@@ -28,8 +21,8 @@ export function authenticate(req: Request, _res: Response, next: NextFunction): 
   }
 
   try {
-    const payload = jwt.verify(token, secret) as UserPayload;
-    req.user = payload;
+    const payload = jwt.verify(token, secret) as { id: string; email: string; role: string };
+    req.user = payload.id;
     next();
   } catch {
     throw new AppError('Token inválido ou expirado', 401);

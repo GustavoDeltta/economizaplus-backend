@@ -1,8 +1,17 @@
 import type { ErrorRequestHandler } from 'express';
-import { AppError } from '../errors/AppError.js';
+import { AppError } from '../errors/AppError';
+import { ApiErrors } from '../errors/api-erros';
 
 export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   if (err instanceof AppError) {
+    res.status(err.statusCode).json({
+      status: 'error',
+      message: err.message,
+    });
+    return;
+  }
+
+  if (err instanceof ApiErrors) {
     res.status(err.statusCode).json({
       status: 'error',
       message: err.message,
