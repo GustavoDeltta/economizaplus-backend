@@ -158,7 +158,7 @@ export type EducationalContentGroupByOutputType = {
   _max: EducationalContentMaxAggregateOutputType | null
 }
 
-export type GetEducationalContentGroupByPayload<T extends EducationalContentGroupByArgs> = Prisma.PrismaPromise<
+type GetEducationalContentGroupByPayload<T extends EducationalContentGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<EducationalContentGroupByOutputType, T['by']> &
       {
@@ -1088,11 +1088,6 @@ export type EducationalContentFindManyArgs<ExtArgs extends runtime.Types.Extensi
    * Skip the first `n` EducationalContents.
    */
   skip?: number
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-   * 
-   * Filter by unique combinations of EducationalContents.
-   */
   distinct?: Prisma.EducationalContentScalarFieldEnum | Prisma.EducationalContentScalarFieldEnum[]
 }
 
