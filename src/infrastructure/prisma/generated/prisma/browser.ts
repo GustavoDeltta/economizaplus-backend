@@ -33,6 +33,11 @@ export type Category = Prisma.CategoryModel
  */
 export type Goal = Prisma.GoalModel
 /**
+ * Model Card
+ * 
+ */
+export type Card = Prisma.CardModel
+/**
  * Model Transaction
  * 
  */

@@ -144,7 +144,7 @@ export type UserContentProgressGroupByOutputType = {
   _max: UserContentProgressMaxAggregateOutputType | null
 }
 
-export type GetUserContentProgressGroupByPayload<T extends UserContentProgressGroupByArgs> = Prisma.PrismaPromise<
+type GetUserContentProgressGroupByPayload<T extends UserContentProgressGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<UserContentProgressGroupByOutputType, T['by']> &
       {
@@ -1166,11 +1166,6 @@ export type UserContentProgressFindManyArgs<ExtArgs extends runtime.Types.Extens
    * Skip the first `n` UserContentProgresses.
    */
   skip?: number
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-   * 
-   * Filter by unique combinations of UserContentProgresses.
-   */
   distinct?: Prisma.UserContentProgressScalarFieldEnum | Prisma.UserContentProgressScalarFieldEnum[]
 }
 

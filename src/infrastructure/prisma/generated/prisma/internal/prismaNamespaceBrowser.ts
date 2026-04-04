@@ -54,6 +54,7 @@ export const ModelName = {
   User: 'User',
   Category: 'Category',
   Goal: 'Goal',
+  Card: 'Card',
   Transaction: 'Transaction',
   EducationalContent: 'EducationalContent',
   UserContentProgress: 'UserContentProgress'
@@ -110,11 +111,26 @@ export const GoalScalarFieldEnum = {
 export type GoalScalarFieldEnum = (typeof GoalScalarFieldEnum)[keyof typeof GoalScalarFieldEnum]
 
 
+export const CardScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  brand: 'brand',
+  last4Digits: 'last4Digits',
+  limit: 'limit',
+  type: 'type',
+  createdAt: 'createdAt'
+} as const
+
+export type CardScalarFieldEnum = (typeof CardScalarFieldEnum)[keyof typeof CardScalarFieldEnum]
+
+
 export const TransactionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   categoryId: 'categoryId',
   goal_id: 'goal_id',
+  cardId: 'cardId',
   type: 'type',
   amount: 'amount',
   description: 'description',

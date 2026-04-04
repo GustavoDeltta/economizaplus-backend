@@ -165,7 +165,7 @@ export type UserGroupByOutputType = {
   _max: UserMaxAggregateOutputType | null
 }
 
-export type GetUserGroupByPayload<T extends UserGroupByArgs> = Prisma.PrismaPromise<
+type GetUserGroupByPayload<T extends UserGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<UserGroupByOutputType, T['by']> &
       {
@@ -193,6 +193,7 @@ export type UserWhereInput = {
   categories?: Prisma.CategoryListRelationFilter
   goals?: Prisma.GoalListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
+  cards?: Prisma.CardListRelationFilter
   contentProgress?: Prisma.UserContentProgressListRelationFilter
 }
 
@@ -206,6 +207,7 @@ export type UserOrderByWithRelationInput = {
   categories?: Prisma.CategoryOrderByRelationAggregateInput
   goals?: Prisma.GoalOrderByRelationAggregateInput
   transactions?: Prisma.TransactionOrderByRelationAggregateInput
+  cards?: Prisma.CardOrderByRelationAggregateInput
   contentProgress?: Prisma.UserContentProgressOrderByRelationAggregateInput
 }
 
@@ -222,6 +224,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   categories?: Prisma.CategoryListRelationFilter
   goals?: Prisma.GoalListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
+  cards?: Prisma.CardListRelationFilter
   contentProgress?: Prisma.UserContentProgressListRelationFilter
 }, "id" | "email">
 
@@ -259,6 +262,7 @@ export type UserCreateInput = {
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardCreateNestedManyWithoutUserInput
   contentProgress?: Prisma.UserContentProgressCreateNestedManyWithoutUserInput
 }
 
@@ -272,6 +276,7 @@ export type UserUncheckedCreateInput = {
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutUserInput
   contentProgress?: Prisma.UserContentProgressUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -285,6 +290,7 @@ export type UserUpdateInput = {
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUpdateManyWithoutUserNestedInput
   contentProgress?: Prisma.UserContentProgressUpdateManyWithoutUserNestedInput
 }
 
@@ -298,6 +304,7 @@ export type UserUncheckedUpdateInput = {
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutUserNestedInput
   contentProgress?: Prisma.UserContentProgressUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -400,6 +407,20 @@ export type UserUpdateOneRequiredWithoutGoalsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutGoalsInput, Prisma.UserUpdateWithoutGoalsInput>, Prisma.UserUncheckedUpdateWithoutGoalsInput>
 }
 
+export type UserCreateNestedOneWithoutCardsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCardsInput, Prisma.UserUncheckedCreateWithoutCardsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCardsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCardsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCardsInput, Prisma.UserUncheckedCreateWithoutCardsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCardsInput
+  upsert?: Prisma.UserUpsertWithoutCardsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCardsInput, Prisma.UserUpdateWithoutCardsInput>, Prisma.UserUncheckedUpdateWithoutCardsInput>
+}
+
 export type UserCreateNestedOneWithoutTransactionsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutTransactionsInput, Prisma.UserUncheckedCreateWithoutTransactionsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutTransactionsInput
@@ -437,6 +458,7 @@ export type UserCreateWithoutCategoriesInput = {
   createdAt?: Date | string
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardCreateNestedManyWithoutUserInput
   contentProgress?: Prisma.UserContentProgressCreateNestedManyWithoutUserInput
 }
 
@@ -449,6 +471,7 @@ export type UserUncheckedCreateWithoutCategoriesInput = {
   createdAt?: Date | string
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutUserInput
   contentProgress?: Prisma.UserContentProgressUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -477,6 +500,7 @@ export type UserUpdateWithoutCategoriesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUpdateManyWithoutUserNestedInput
   contentProgress?: Prisma.UserContentProgressUpdateManyWithoutUserNestedInput
 }
 
@@ -489,6 +513,7 @@ export type UserUncheckedUpdateWithoutCategoriesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutUserNestedInput
   contentProgress?: Prisma.UserContentProgressUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -501,6 +526,7 @@ export type UserCreateWithoutGoalsInput = {
   createdAt?: Date | string
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardCreateNestedManyWithoutUserInput
   contentProgress?: Prisma.UserContentProgressCreateNestedManyWithoutUserInput
 }
 
@@ -513,6 +539,7 @@ export type UserUncheckedCreateWithoutGoalsInput = {
   createdAt?: Date | string
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutUserInput
   contentProgress?: Prisma.UserContentProgressUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -541,6 +568,7 @@ export type UserUpdateWithoutGoalsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUpdateManyWithoutUserNestedInput
   contentProgress?: Prisma.UserContentProgressUpdateManyWithoutUserNestedInput
 }
 
@@ -552,6 +580,75 @@ export type UserUncheckedUpdateWithoutGoalsInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutUserNestedInput
+  contentProgress?: Prisma.UserContentProgressUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutCardsInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  role?: $Enums.Role
+  createdAt?: Date | string
+  categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  contentProgress?: Prisma.UserContentProgressCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutCardsInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  role?: $Enums.Role
+  createdAt?: Date | string
+  categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  contentProgress?: Prisma.UserContentProgressUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutCardsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCardsInput, Prisma.UserUncheckedCreateWithoutCardsInput>
+}
+
+export type UserUpsertWithoutCardsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCardsInput, Prisma.UserUncheckedUpdateWithoutCardsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCardsInput, Prisma.UserUncheckedCreateWithoutCardsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCardsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCardsInput, Prisma.UserUncheckedUpdateWithoutCardsInput>
+}
+
+export type UserUpdateWithoutCardsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  contentProgress?: Prisma.UserContentProgressUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCardsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   contentProgress?: Prisma.UserContentProgressUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -565,6 +662,7 @@ export type UserCreateWithoutTransactionsInput = {
   createdAt?: Date | string
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardCreateNestedManyWithoutUserInput
   contentProgress?: Prisma.UserContentProgressCreateNestedManyWithoutUserInput
 }
 
@@ -577,6 +675,7 @@ export type UserUncheckedCreateWithoutTransactionsInput = {
   createdAt?: Date | string
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutUserInput
   contentProgress?: Prisma.UserContentProgressUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -605,6 +704,7 @@ export type UserUpdateWithoutTransactionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUpdateManyWithoutUserNestedInput
   contentProgress?: Prisma.UserContentProgressUpdateManyWithoutUserNestedInput
 }
 
@@ -617,6 +717,7 @@ export type UserUncheckedUpdateWithoutTransactionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutUserNestedInput
   contentProgress?: Prisma.UserContentProgressUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -630,6 +731,7 @@ export type UserCreateWithoutContentProgressInput = {
   categories?: Prisma.CategoryCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutContentProgressInput = {
@@ -642,6 +744,7 @@ export type UserUncheckedCreateWithoutContentProgressInput = {
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutContentProgressInput = {
@@ -670,6 +773,7 @@ export type UserUpdateWithoutContentProgressInput = {
   categories?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutContentProgressInput = {
@@ -682,6 +786,7 @@ export type UserUncheckedUpdateWithoutContentProgressInput = {
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -693,6 +798,7 @@ export type UserCountOutputType = {
   categories: number
   goals: number
   transactions: number
+  cards: number
   contentProgress: number
 }
 
@@ -700,6 +806,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   categories?: boolean | UserCountOutputTypeCountCategoriesArgs
   goals?: boolean | UserCountOutputTypeCountGoalsArgs
   transactions?: boolean | UserCountOutputTypeCountTransactionsArgs
+  cards?: boolean | UserCountOutputTypeCountCardsArgs
   contentProgress?: boolean | UserCountOutputTypeCountContentProgressArgs
 }
 
@@ -737,6 +844,13 @@ export type UserCountOutputTypeCountTransactionsArgs<ExtArgs extends runtime.Typ
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountCardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CardWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountContentProgressArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.UserContentProgressWhereInput
 }
@@ -752,6 +866,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   categories?: boolean | Prisma.User$categoriesArgs<ExtArgs>
   goals?: boolean | Prisma.User$goalsArgs<ExtArgs>
   transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
+  cards?: boolean | Prisma.User$cardsArgs<ExtArgs>
   contentProgress?: boolean | Prisma.User$contentProgressArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -788,6 +903,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   categories?: boolean | Prisma.User$categoriesArgs<ExtArgs>
   goals?: boolean | Prisma.User$goalsArgs<ExtArgs>
   transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
+  cards?: boolean | Prisma.User$cardsArgs<ExtArgs>
   contentProgress?: boolean | Prisma.User$contentProgressArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -800,6 +916,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     categories: Prisma.$CategoryPayload<ExtArgs>[]
     goals: Prisma.$GoalPayload<ExtArgs>[]
     transactions: Prisma.$TransactionPayload<ExtArgs>[]
+    cards: Prisma.$CardPayload<ExtArgs>[]
     contentProgress: Prisma.$UserContentProgressPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1206,6 +1323,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   categories<T extends Prisma.User$categoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   goals<T extends Prisma.User$goalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$goalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   transactions<T extends Prisma.User$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  cards<T extends Prisma.User$cardsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$cardsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   contentProgress<T extends Prisma.User$contentProgressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$contentProgressArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserContentProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1438,11 +1556,6 @@ export type UserFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Skip the first `n` Users.
    */
   skip?: number
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-   * 
-   * Filter by unique combinations of Users.
-   */
   distinct?: Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[]
 }
 
@@ -1704,6 +1817,30 @@ export type User$transactionsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.TransactionScalarFieldEnum | Prisma.TransactionScalarFieldEnum[]
+}
+
+/**
+ * User.cards
+ */
+export type User$cardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Card
+   */
+  select?: Prisma.CardSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Card
+   */
+  omit?: Prisma.CardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CardInclude<ExtArgs> | null
+  where?: Prisma.CardWhereInput
+  orderBy?: Prisma.CardOrderByWithRelationInput | Prisma.CardOrderByWithRelationInput[]
+  cursor?: Prisma.CardWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CardScalarFieldEnum | Prisma.CardScalarFieldEnum[]
 }
 
 /**

@@ -9,12 +9,6 @@ export class GoalService {
 
     async createGoal(userId: string, name: string, targetAmount: Decimal, deadline: Date) {
 
-        const exists = await this.goalRepository.findGoal(userId);
-
-        if (exists) {
-            throw new BadRequestError("Meta já existe para este usuário");
-        }
-
         const goal = new Goal(randomUUID(), userId, name, targetAmount, deadline);
 
         return this.goalRepository.create(goal);
