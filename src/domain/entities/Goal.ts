@@ -6,6 +6,8 @@ export class Goal {
         public userId: string,
         public name: string,
         public targetAmount: Decimal,
+        public currentAmount: Decimal,
+        public percentageComplete: Decimal,
         public deadline: Date
     ){}
 }

@@ -20,7 +20,7 @@ export class GoalController {
 
     async update(req: Request, res: Response) {
         const { id } = req.params as { id: string };
-        const { name, targetAmount, deadline } = req.body;
+        const { name, targetAmount, currentAmount, deadline } = req.body;
 
         const parsedDeadline = new Date(deadline);
         if (isNaN(parsedDeadline.getTime())) {
@@ -29,7 +29,7 @@ export class GoalController {
 
         const userId = req.user as string;
 
-        const updatedGoal = await this.goalService.updateGoal(id, userId, name, targetAmount, parsedDeadline);
+        const updatedGoal = await this.goalService.updateGoal(id, userId, name, targetAmount, currentAmount, parsedDeadline);
 
         return res.json(updatedGoal);
     }

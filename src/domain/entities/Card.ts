@@ -7,7 +7,10 @@ export class Card{
         public name: string,
         public brand: string,
         public last4Digits: string,
-        public limit: Decimal | null,
+        public limitTotal: Decimal | null,
+        public limitRemaining: Decimal | null,
+        public closingDay: number | null,
+        public dueDay: number | null,
         public type: string
     ){}
 }

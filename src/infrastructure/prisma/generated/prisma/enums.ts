@@ -19,10 +19,22 @@ export type Role = (typeof Role)[keyof typeof Role]
 
 export const TransactionType = {
   INCOME: 'INCOME',
-  EXPENSE: 'EXPENSE'
+  EXPENSE: 'EXPENSE',
+  TRANSFER: 'TRANSFER'
 } as const
 
 export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType]
+
+
+export const PaymentMethod = {
+  CASH: 'CASH',
+  CREDIT_CARD: 'CREDIT_CARD',
+  DEBIT_CARD: 'DEBIT_CARD',
+  PIX: 'PIX',
+  BANK_TRANSFER: 'BANK_TRANSFER'
+} as const
+
+export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
 
 
 export const CardType = {
@@ -31,3 +43,13 @@ export const CardType = {
 } as const
 
 export type CardType = (typeof CardType)[keyof typeof CardType]
+
+
+export const WalletType = {
+  CHECKING_ACCOUNT: 'CHECKING_ACCOUNT',
+  SAVINGS_ACCOUNT: 'SAVINGS_ACCOUNT',
+  CASH: 'CASH',
+  INVESTMENT: 'INVESTMENT'
+} as const
+
+export type WalletType = (typeof WalletType)[keyof typeof WalletType]

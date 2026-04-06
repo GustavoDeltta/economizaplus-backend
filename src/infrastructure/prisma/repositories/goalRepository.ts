@@ -10,18 +10,22 @@ export class GoalRepository implements InterfaceGoalRepository {
                 userId: goal.userId,
                 name: goal.name,
                 targetAmount: goal.targetAmount,
+                currentAmount: goal.currentAmount,
+                percentageComplete: goal.percentageComplete,
                 deadline: goal.deadline
             }
         });
-        return new Goal(data.id, data.userId, data.name, data.targetAmount, data.deadline);
+        return new Goal(data.id, data.userId, data.name, data.targetAmount, data.currentAmount, data.percentageComplete, data.deadline);
     }
 
-    async update(id: string, name: string, targetAmount: Decimal, deadline: Date): Promise<Goal> {
+    async update(id: string, name: string, targetAmount: Decimal, currentAmount: Decimal, percentageComplete: Decimal, deadline: Date): Promise<Goal> {
         const data = await prisma.goal.update({
             where: { id },
             data: {
                 name,
                 targetAmount,
+                currentAmount,
+                percentageComplete,
                 deadline
             }
         });
@@ -30,6 +34,8 @@ export class GoalRepository implements InterfaceGoalRepository {
                 data.userId, 
                 data.name, 
                 data.targetAmount, 
+                data.currentAmount,
+                data.percentageComplete,
                 data.deadline);
     }
 
@@ -43,6 +49,8 @@ export class GoalRepository implements InterfaceGoalRepository {
             data.userId, 
             data.name, 
             data.targetAmount, 
+            data.currentAmount,
+            data.percentageComplete,
             data.deadline
         );
     }
@@ -59,6 +67,8 @@ export class GoalRepository implements InterfaceGoalRepository {
             data.userId, 
             data.name, 
             data.targetAmount, 
+            data.currentAmount,
+            data.percentageComplete,
             data.deadline);
     }
 
@@ -73,6 +83,8 @@ export class GoalRepository implements InterfaceGoalRepository {
             goal.userId, 
             goal.name, 
             goal.targetAmount, 
+            goal.currentAmount,
+            goal.percentageComplete,
             goal.deadline));
     }
 
@@ -88,6 +100,8 @@ export class GoalRepository implements InterfaceGoalRepository {
             data.userId, 
             data.name, 
             data.targetAmount, 
+            data.currentAmount,
+            data.percentageComplete,
             data.deadline);
     }
 
@@ -104,6 +118,8 @@ export class GoalRepository implements InterfaceGoalRepository {
             data.userId, 
             data.name, 
             data.targetAmount, 
+            data.currentAmount,
+            data.percentageComplete,
             data.deadline);
     }
 }

@@ -38,6 +38,11 @@ export type Goal = Prisma.GoalModel
  */
 export type Card = Prisma.CardModel
 /**
+ * Model Wallet
+ * 
+ */
+export type Wallet = Prisma.WalletModel
+/**
  * Model Transaction
  * 
  */

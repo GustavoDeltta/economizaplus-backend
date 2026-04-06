@@ -6,7 +6,7 @@ import { CardType } from "../generated/prisma/enums";
 import { BadRequestError } from "../../../shared/errors/api-erros";
 import { Decimal } from "@prisma/client/runtime/client";
 
-export class cardRepository implements InterfaceCardRepository {
+export class CardRepository implements InterfaceCardRepository {
     async create(card: Card): Promise<Card> {
         const data = await prisma.card.create({
             data: {
@@ -15,7 +15,10 @@ export class cardRepository implements InterfaceCardRepository {
                 name: card.name,
                 brand: card.brand,
                 last4Digits: card.last4Digits,
-                limit: card.limit ? Prisma.Decimal(card.limit) : null,
+                limitTotal: card.limitTotal ? Prisma.Decimal(card.limitTotal) : null,
+                limitRemaining: card.limitRemaining ? Prisma.Decimal(card.limitRemaining) : null,
+                closingDay: card.closingDay,
+                dueDay: card.dueDay,
                 type: card.type as CardType
                 
             }
@@ -26,11 +29,14 @@ export class cardRepository implements InterfaceCardRepository {
             data.name,
             data.brand,
             data.last4Digits,
-            data.limit,
+            data.limitTotal,
+            data.limitRemaining,
+            data.closingDay,
+            data.dueDay,
             data.type
         );
     }
-    async update(id: string, userId: string, name: string, brand: string, last4Digits: string, limit: Decimal | null, type: string): Promise<Card> {
+    async update(id: string, userId: string, name: string, brand: string, last4Digits: string, limitTotal: Decimal | null, limitRemaining: Decimal | null, closingDay: number | null, dueDay: number | null, type: string): Promise<Card> {
         const card = await prisma.card.findFirst({
             where: { id }
         });
@@ -44,7 +50,10 @@ export class cardRepository implements InterfaceCardRepository {
                 name,
                 brand,
                 last4Digits: last4Digits,
-                limit,
+                limitTotal,
+                limitRemaining,
+                closingDay,
+                dueDay,
                 type: type as CardType
             }
         });
@@ -55,7 +64,10 @@ export class cardRepository implements InterfaceCardRepository {
             data.name,
             data.brand,
             data.last4Digits,
-            data.limit,
+            data.limitTotal,
+            data.limitRemaining,
+            data.closingDay,
+            data.dueDay,
             data.type
         );
     }
@@ -86,7 +98,10 @@ export class cardRepository implements InterfaceCardRepository {
             data.name,
             data.brand,
             data.last4Digits,
-            data.limit,
+            data.limitTotal,
+            data.limitRemaining,
+            data.closingDay,
+            data.dueDay,
             data.type
         );
     }
@@ -101,7 +116,10 @@ export class cardRepository implements InterfaceCardRepository {
             card.name,
             card.brand,
             card.last4Digits,
-            card.limit,
+            card.limitTotal,
+            card.limitRemaining,
+            card.closingDay,
+            card.dueDay,
             card.type
         ));
     }
@@ -121,7 +139,30 @@ export class cardRepository implements InterfaceCardRepository {
             data.name,
             data.brand,
             data.last4Digits,
-            data.limit,
+            data.limitTotal,
+            data.limitRemaining,
+            data.closingDay,
+            data.dueDay,
+            data.type
+        );
+    }
+
+    async updateLimit(id: string, newLimitRemaining: Decimal, tx?: any): Promise<Card> {
+        const client = tx || prisma;
+        const data = await client.card.update({
+            where: { id },
+            data: { limitRemaining: newLimitRemaining }
+        });
+        return new Card(
+            data.id, 
+            data.userId, 
+            data.name,
+            data.brand,
+            data.last4Digits,
+            data.limitTotal,
+            data.limitRemaining,
+            data.closingDay,
+            data.dueDay,
             data.type
         );
     }

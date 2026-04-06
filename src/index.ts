@@ -1,15 +1,6 @@
-import "dotenv/config";
-import "express-async-errors";
-import express from "express";
-import routes from "./routes";
-import { errorHandler } from "./shared/middlewares/errorHandler";
+import { createApp } from './app';
 
-const app = express();
-
-app.use(express.json());
-app.use(routes);
-app.use(errorHandler);
-
+const app = createApp();
 const PORT = process.env.PORT ?? 3000;
 
 app.listen(PORT, () => {

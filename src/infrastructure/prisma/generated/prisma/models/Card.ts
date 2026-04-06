@@ -27,11 +27,17 @@ export type AggregateCard = {
 }
 
 export type CardAvgAggregateOutputType = {
-  limit: runtime.Decimal | null
+  limitTotal: runtime.Decimal | null
+  limitRemaining: runtime.Decimal | null
+  closingDay: number | null
+  dueDay: number | null
 }
 
 export type CardSumAggregateOutputType = {
-  limit: runtime.Decimal | null
+  limitTotal: runtime.Decimal | null
+  limitRemaining: runtime.Decimal | null
+  closingDay: number | null
+  dueDay: number | null
 }
 
 export type CardMinAggregateOutputType = {
@@ -40,7 +46,10 @@ export type CardMinAggregateOutputType = {
   name: string | null
   brand: string | null
   last4Digits: string | null
-  limit: runtime.Decimal | null
+  limitTotal: runtime.Decimal | null
+  limitRemaining: runtime.Decimal | null
+  closingDay: number | null
+  dueDay: number | null
   type: $Enums.CardType | null
   createdAt: Date | null
 }
@@ -51,7 +60,10 @@ export type CardMaxAggregateOutputType = {
   name: string | null
   brand: string | null
   last4Digits: string | null
-  limit: runtime.Decimal | null
+  limitTotal: runtime.Decimal | null
+  limitRemaining: runtime.Decimal | null
+  closingDay: number | null
+  dueDay: number | null
   type: $Enums.CardType | null
   createdAt: Date | null
 }
@@ -62,7 +74,10 @@ export type CardCountAggregateOutputType = {
   name: number
   brand: number
   last4Digits: number
-  limit: number
+  limitTotal: number
+  limitRemaining: number
+  closingDay: number
+  dueDay: number
   type: number
   createdAt: number
   _all: number
@@ -70,11 +85,17 @@ export type CardCountAggregateOutputType = {
 
 
 export type CardAvgAggregateInputType = {
-  limit?: true
+  limitTotal?: true
+  limitRemaining?: true
+  closingDay?: true
+  dueDay?: true
 }
 
 export type CardSumAggregateInputType = {
-  limit?: true
+  limitTotal?: true
+  limitRemaining?: true
+  closingDay?: true
+  dueDay?: true
 }
 
 export type CardMinAggregateInputType = {
@@ -83,7 +104,10 @@ export type CardMinAggregateInputType = {
   name?: true
   brand?: true
   last4Digits?: true
-  limit?: true
+  limitTotal?: true
+  limitRemaining?: true
+  closingDay?: true
+  dueDay?: true
   type?: true
   createdAt?: true
 }
@@ -94,7 +118,10 @@ export type CardMaxAggregateInputType = {
   name?: true
   brand?: true
   last4Digits?: true
-  limit?: true
+  limitTotal?: true
+  limitRemaining?: true
+  closingDay?: true
+  dueDay?: true
   type?: true
   createdAt?: true
 }
@@ -105,7 +132,10 @@ export type CardCountAggregateInputType = {
   name?: true
   brand?: true
   last4Digits?: true
-  limit?: true
+  limitTotal?: true
+  limitRemaining?: true
+  closingDay?: true
+  dueDay?: true
   type?: true
   createdAt?: true
   _all?: true
@@ -203,7 +233,10 @@ export type CardGroupByOutputType = {
   name: string
   brand: string
   last4Digits: string
-  limit: runtime.Decimal | null
+  limitTotal: runtime.Decimal | null
+  limitRemaining: runtime.Decimal | null
+  closingDay: number | null
+  dueDay: number | null
   type: $Enums.CardType
   createdAt: Date
   _count: CardCountAggregateOutputType | null
@@ -213,7 +246,7 @@ export type CardGroupByOutputType = {
   _max: CardMaxAggregateOutputType | null
 }
 
-type GetCardGroupByPayload<T extends CardGroupByArgs> = Prisma.PrismaPromise<
+export type GetCardGroupByPayload<T extends CardGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<CardGroupByOutputType, T['by']> &
       {
@@ -237,7 +270,10 @@ export type CardWhereInput = {
   name?: Prisma.StringFilter<"Card"> | string
   brand?: Prisma.StringFilter<"Card"> | string
   last4Digits?: Prisma.StringFilter<"Card"> | string
-  limit?: Prisma.DecimalNullableFilter<"Card"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitTotal?: Prisma.DecimalNullableFilter<"Card"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitRemaining?: Prisma.DecimalNullableFilter<"Card"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  closingDay?: Prisma.IntNullableFilter<"Card"> | number | null
+  dueDay?: Prisma.IntNullableFilter<"Card"> | number | null
   type?: Prisma.EnumCardTypeFilter<"Card"> | $Enums.CardType
   createdAt?: Prisma.DateTimeFilter<"Card"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -250,7 +286,10 @@ export type CardOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   brand?: Prisma.SortOrder
   last4Digits?: Prisma.SortOrder
-  limit?: Prisma.SortOrderInput | Prisma.SortOrder
+  limitTotal?: Prisma.SortOrderInput | Prisma.SortOrder
+  limitRemaining?: Prisma.SortOrderInput | Prisma.SortOrder
+  closingDay?: Prisma.SortOrderInput | Prisma.SortOrder
+  dueDay?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -267,7 +306,10 @@ export type CardWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Card"> | string
   brand?: Prisma.StringFilter<"Card"> | string
   last4Digits?: Prisma.StringFilter<"Card"> | string
-  limit?: Prisma.DecimalNullableFilter<"Card"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitTotal?: Prisma.DecimalNullableFilter<"Card"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitRemaining?: Prisma.DecimalNullableFilter<"Card"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  closingDay?: Prisma.IntNullableFilter<"Card"> | number | null
+  dueDay?: Prisma.IntNullableFilter<"Card"> | number | null
   type?: Prisma.EnumCardTypeFilter<"Card"> | $Enums.CardType
   createdAt?: Prisma.DateTimeFilter<"Card"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -280,7 +322,10 @@ export type CardOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   brand?: Prisma.SortOrder
   last4Digits?: Prisma.SortOrder
-  limit?: Prisma.SortOrderInput | Prisma.SortOrder
+  limitTotal?: Prisma.SortOrderInput | Prisma.SortOrder
+  limitRemaining?: Prisma.SortOrderInput | Prisma.SortOrder
+  closingDay?: Prisma.SortOrderInput | Prisma.SortOrder
+  dueDay?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.CardCountOrderByAggregateInput
@@ -299,7 +344,10 @@ export type CardScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"Card"> | string
   brand?: Prisma.StringWithAggregatesFilter<"Card"> | string
   last4Digits?: Prisma.StringWithAggregatesFilter<"Card"> | string
-  limit?: Prisma.DecimalNullableWithAggregatesFilter<"Card"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitTotal?: Prisma.DecimalNullableWithAggregatesFilter<"Card"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitRemaining?: Prisma.DecimalNullableWithAggregatesFilter<"Card"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  closingDay?: Prisma.IntNullableWithAggregatesFilter<"Card"> | number | null
+  dueDay?: Prisma.IntNullableWithAggregatesFilter<"Card"> | number | null
   type?: Prisma.EnumCardTypeWithAggregatesFilter<"Card"> | $Enums.CardType
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Card"> | Date | string
 }
@@ -309,7 +357,10 @@ export type CardCreateInput = {
   name: string
   brand: string
   last4Digits: string
-  limit?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitRemaining?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  closingDay?: number | null
+  dueDay?: number | null
   type: $Enums.CardType
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutCardsInput
@@ -322,7 +373,10 @@ export type CardUncheckedCreateInput = {
   name: string
   brand: string
   last4Digits: string
-  limit?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitRemaining?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  closingDay?: number | null
+  dueDay?: number | null
   type: $Enums.CardType
   createdAt?: Date | string
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutCardInput
@@ -333,7 +387,10 @@ export type CardUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   brand?: Prisma.StringFieldUpdateOperationsInput | string
   last4Digits?: Prisma.StringFieldUpdateOperationsInput | string
-  limit?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitRemaining?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  closingDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dueDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumCardTypeFieldUpdateOperationsInput | $Enums.CardType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutCardsNestedInput
@@ -346,7 +403,10 @@ export type CardUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   brand?: Prisma.StringFieldUpdateOperationsInput | string
   last4Digits?: Prisma.StringFieldUpdateOperationsInput | string
-  limit?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitRemaining?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  closingDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dueDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumCardTypeFieldUpdateOperationsInput | $Enums.CardType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutCardNestedInput
@@ -358,7 +418,10 @@ export type CardCreateManyInput = {
   name: string
   brand: string
   last4Digits: string
-  limit?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitRemaining?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  closingDay?: number | null
+  dueDay?: number | null
   type: $Enums.CardType
   createdAt?: Date | string
 }
@@ -368,7 +431,10 @@ export type CardUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   brand?: Prisma.StringFieldUpdateOperationsInput | string
   last4Digits?: Prisma.StringFieldUpdateOperationsInput | string
-  limit?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitRemaining?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  closingDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dueDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumCardTypeFieldUpdateOperationsInput | $Enums.CardType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -379,7 +445,10 @@ export type CardUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   brand?: Prisma.StringFieldUpdateOperationsInput | string
   last4Digits?: Prisma.StringFieldUpdateOperationsInput | string
-  limit?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitRemaining?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  closingDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dueDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumCardTypeFieldUpdateOperationsInput | $Enums.CardType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -405,13 +474,19 @@ export type CardCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   brand?: Prisma.SortOrder
   last4Digits?: Prisma.SortOrder
-  limit?: Prisma.SortOrder
+  limitTotal?: Prisma.SortOrder
+  limitRemaining?: Prisma.SortOrder
+  closingDay?: Prisma.SortOrder
+  dueDay?: Prisma.SortOrder
   type?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type CardAvgOrderByAggregateInput = {
-  limit?: Prisma.SortOrder
+  limitTotal?: Prisma.SortOrder
+  limitRemaining?: Prisma.SortOrder
+  closingDay?: Prisma.SortOrder
+  dueDay?: Prisma.SortOrder
 }
 
 export type CardMaxOrderByAggregateInput = {
@@ -420,7 +495,10 @@ export type CardMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   brand?: Prisma.SortOrder
   last4Digits?: Prisma.SortOrder
-  limit?: Prisma.SortOrder
+  limitTotal?: Prisma.SortOrder
+  limitRemaining?: Prisma.SortOrder
+  closingDay?: Prisma.SortOrder
+  dueDay?: Prisma.SortOrder
   type?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -431,13 +509,19 @@ export type CardMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   brand?: Prisma.SortOrder
   last4Digits?: Prisma.SortOrder
-  limit?: Prisma.SortOrder
+  limitTotal?: Prisma.SortOrder
+  limitRemaining?: Prisma.SortOrder
+  closingDay?: Prisma.SortOrder
+  dueDay?: Prisma.SortOrder
   type?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type CardSumOrderByAggregateInput = {
-  limit?: Prisma.SortOrder
+  limitTotal?: Prisma.SortOrder
+  limitRemaining?: Prisma.SortOrder
+  closingDay?: Prisma.SortOrder
+  dueDay?: Prisma.SortOrder
 }
 
 export type CardNullableScalarRelationFilter = {
@@ -495,6 +579,14 @@ export type NullableDecimalFieldUpdateOperationsInput = {
   divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type EnumCardTypeFieldUpdateOperationsInput = {
   set?: $Enums.CardType
 }
@@ -520,7 +612,10 @@ export type CardCreateWithoutUserInput = {
   name: string
   brand: string
   last4Digits: string
-  limit?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitRemaining?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  closingDay?: number | null
+  dueDay?: number | null
   type: $Enums.CardType
   createdAt?: Date | string
   transactions?: Prisma.TransactionCreateNestedManyWithoutCardInput
@@ -531,7 +626,10 @@ export type CardUncheckedCreateWithoutUserInput = {
   name: string
   brand: string
   last4Digits: string
-  limit?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitRemaining?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  closingDay?: number | null
+  dueDay?: number | null
   type: $Enums.CardType
   createdAt?: Date | string
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutCardInput
@@ -572,7 +670,10 @@ export type CardScalarWhereInput = {
   name?: Prisma.StringFilter<"Card"> | string
   brand?: Prisma.StringFilter<"Card"> | string
   last4Digits?: Prisma.StringFilter<"Card"> | string
-  limit?: Prisma.DecimalNullableFilter<"Card"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitTotal?: Prisma.DecimalNullableFilter<"Card"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitRemaining?: Prisma.DecimalNullableFilter<"Card"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  closingDay?: Prisma.IntNullableFilter<"Card"> | number | null
+  dueDay?: Prisma.IntNullableFilter<"Card"> | number | null
   type?: Prisma.EnumCardTypeFilter<"Card"> | $Enums.CardType
   createdAt?: Prisma.DateTimeFilter<"Card"> | Date | string
 }
@@ -582,7 +683,10 @@ export type CardCreateWithoutTransactionsInput = {
   name: string
   brand: string
   last4Digits: string
-  limit?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitRemaining?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  closingDay?: number | null
+  dueDay?: number | null
   type: $Enums.CardType
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutCardsInput
@@ -594,7 +698,10 @@ export type CardUncheckedCreateWithoutTransactionsInput = {
   name: string
   brand: string
   last4Digits: string
-  limit?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitRemaining?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  closingDay?: number | null
+  dueDay?: number | null
   type: $Enums.CardType
   createdAt?: Date | string
 }
@@ -620,7 +727,10 @@ export type CardUpdateWithoutTransactionsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   brand?: Prisma.StringFieldUpdateOperationsInput | string
   last4Digits?: Prisma.StringFieldUpdateOperationsInput | string
-  limit?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitRemaining?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  closingDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dueDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumCardTypeFieldUpdateOperationsInput | $Enums.CardType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutCardsNestedInput
@@ -632,7 +742,10 @@ export type CardUncheckedUpdateWithoutTransactionsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   brand?: Prisma.StringFieldUpdateOperationsInput | string
   last4Digits?: Prisma.StringFieldUpdateOperationsInput | string
-  limit?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitRemaining?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  closingDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dueDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumCardTypeFieldUpdateOperationsInput | $Enums.CardType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -642,7 +755,10 @@ export type CardCreateManyUserInput = {
   name: string
   brand: string
   last4Digits: string
-  limit?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitRemaining?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  closingDay?: number | null
+  dueDay?: number | null
   type: $Enums.CardType
   createdAt?: Date | string
 }
@@ -652,7 +768,10 @@ export type CardUpdateWithoutUserInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   brand?: Prisma.StringFieldUpdateOperationsInput | string
   last4Digits?: Prisma.StringFieldUpdateOperationsInput | string
-  limit?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitRemaining?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  closingDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dueDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumCardTypeFieldUpdateOperationsInput | $Enums.CardType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transactions?: Prisma.TransactionUpdateManyWithoutCardNestedInput
@@ -663,7 +782,10 @@ export type CardUncheckedUpdateWithoutUserInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   brand?: Prisma.StringFieldUpdateOperationsInput | string
   last4Digits?: Prisma.StringFieldUpdateOperationsInput | string
-  limit?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitRemaining?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  closingDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dueDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumCardTypeFieldUpdateOperationsInput | $Enums.CardType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutCardNestedInput
@@ -674,7 +796,10 @@ export type CardUncheckedUpdateManyWithoutUserInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   brand?: Prisma.StringFieldUpdateOperationsInput | string
   last4Digits?: Prisma.StringFieldUpdateOperationsInput | string
-  limit?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  limitRemaining?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  closingDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  dueDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumCardTypeFieldUpdateOperationsInput | $Enums.CardType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -716,7 +841,10 @@ export type CardSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   name?: boolean
   brand?: boolean
   last4Digits?: boolean
-  limit?: boolean
+  limitTotal?: boolean
+  limitRemaining?: boolean
+  closingDay?: boolean
+  dueDay?: boolean
   type?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -730,7 +858,10 @@ export type CardSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   name?: boolean
   brand?: boolean
   last4Digits?: boolean
-  limit?: boolean
+  limitTotal?: boolean
+  limitRemaining?: boolean
+  closingDay?: boolean
+  dueDay?: boolean
   type?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -742,7 +873,10 @@ export type CardSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   name?: boolean
   brand?: boolean
   last4Digits?: boolean
-  limit?: boolean
+  limitTotal?: boolean
+  limitRemaining?: boolean
+  closingDay?: boolean
+  dueDay?: boolean
   type?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -754,12 +888,15 @@ export type CardSelectScalar = {
   name?: boolean
   brand?: boolean
   last4Digits?: boolean
-  limit?: boolean
+  limitTotal?: boolean
+  limitRemaining?: boolean
+  closingDay?: boolean
+  dueDay?: boolean
   type?: boolean
   createdAt?: boolean
 }
 
-export type CardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "brand" | "last4Digits" | "limit" | "type" | "createdAt", ExtArgs["result"]["card"]>
+export type CardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "brand" | "last4Digits" | "limitTotal" | "limitRemaining" | "closingDay" | "dueDay" | "type" | "createdAt", ExtArgs["result"]["card"]>
 export type CardInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   transactions?: boolean | Prisma.Card$transactionsArgs<ExtArgs>
@@ -784,7 +921,10 @@ export type $CardPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     name: string
     brand: string
     last4Digits: string
-    limit: runtime.Decimal | null
+    limitTotal: runtime.Decimal | null
+    limitRemaining: runtime.Decimal | null
+    closingDay: number | null
+    dueDay: number | null
     type: $Enums.CardType
     createdAt: Date
   }, ExtArgs["result"]["card"]>
@@ -1217,7 +1357,10 @@ export interface CardFieldRefs {
   readonly name: Prisma.FieldRef<"Card", 'String'>
   readonly brand: Prisma.FieldRef<"Card", 'String'>
   readonly last4Digits: Prisma.FieldRef<"Card", 'String'>
-  readonly limit: Prisma.FieldRef<"Card", 'Decimal'>
+  readonly limitTotal: Prisma.FieldRef<"Card", 'Decimal'>
+  readonly limitRemaining: Prisma.FieldRef<"Card", 'Decimal'>
+  readonly closingDay: Prisma.FieldRef<"Card", 'Int'>
+  readonly dueDay: Prisma.FieldRef<"Card", 'Int'>
   readonly type: Prisma.FieldRef<"Card", 'CardType'>
   readonly createdAt: Prisma.FieldRef<"Card", 'DateTime'>
 }
@@ -1416,6 +1559,11 @@ export type CardFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Skip the first `n` Cards.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of Cards.
+   */
   distinct?: Prisma.CardScalarFieldEnum | Prisma.CardScalarFieldEnum[]
 }
 

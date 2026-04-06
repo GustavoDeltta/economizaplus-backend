@@ -5,9 +5,9 @@ export class CardController{
     constructor(private cardService: CardService){}
     async create(req: Request, res: Response) {
         const userId = req.user as string;
-        const { name, brand, last4Digits, limit, type } = req.body;
+        const { name, brand, last4Digits, limitTotal, limitRemaining, closingDay, dueDay, type } = req.body;
         
-        const card = await this.cardService.createCard(userId, name, brand, last4Digits, limit, type);
+        const card = await this.cardService.createCard(userId, name, brand, last4Digits, limitTotal, limitRemaining, closingDay, dueDay, type);
 
         return res.status(201).json({ card });
     }
@@ -32,9 +32,9 @@ export class CardController{
     async update(req: Request, res: Response) {
         const userId = req.user as string;
         const { id } = req.params as { id: string };
-        const { name, brand, last4digits, limit, type } = req.body;
+        const { name, brand, last4Digits, limitTotal, limitRemaining, closingDay, dueDay, type } = req.body;
 
-        const card = await this.cardService.updateCard(id, userId, name, brand, last4digits, limit, type);
+        const card = await this.cardService.updateCard(id, userId, name, brand, last4Digits, limitTotal, limitRemaining, closingDay, dueDay, type);
 
         
         return res.json(card);

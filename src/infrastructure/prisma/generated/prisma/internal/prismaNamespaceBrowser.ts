@@ -55,6 +55,7 @@ export const ModelName = {
   Category: 'Category',
   Goal: 'Goal',
   Card: 'Card',
+  Wallet: 'Wallet',
   Transaction: 'Transaction',
   EducationalContent: 'EducationalContent',
   UserContentProgress: 'UserContentProgress'
@@ -104,6 +105,8 @@ export const GoalScalarFieldEnum = {
   userId: 'userId',
   name: 'name',
   targetAmount: 'targetAmount',
+  currentAmount: 'currentAmount',
+  percentageComplete: 'percentageComplete',
   deadline: 'deadline',
   createdAt: 'createdAt'
 } as const
@@ -117,7 +120,10 @@ export const CardScalarFieldEnum = {
   name: 'name',
   brand: 'brand',
   last4Digits: 'last4Digits',
-  limit: 'limit',
+  limitTotal: 'limitTotal',
+  limitRemaining: 'limitRemaining',
+  closingDay: 'closingDay',
+  dueDay: 'dueDay',
   type: 'type',
   createdAt: 'createdAt'
 } as const
@@ -125,16 +131,34 @@ export const CardScalarFieldEnum = {
 export type CardScalarFieldEnum = (typeof CardScalarFieldEnum)[keyof typeof CardScalarFieldEnum]
 
 
+export const WalletScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  type: 'type',
+  balance: 'balance',
+  createdAt: 'createdAt'
+} as const
+
+export type WalletScalarFieldEnum = (typeof WalletScalarFieldEnum)[keyof typeof WalletScalarFieldEnum]
+
+
 export const TransactionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  walletId: 'walletId',
   categoryId: 'categoryId',
   goal_id: 'goal_id',
   cardId: 'cardId',
   type: 'type',
+  paymentMethod: 'paymentMethod',
   amount: 'amount',
   description: 'description',
   transactionDate: 'transactionDate',
+  isInstallment: 'isInstallment',
+  installmentNumber: 'installmentNumber',
+  totalInstallments: 'totalInstallments',
+  parentTransactionId: 'parentTransactionId',
   createdAt: 'createdAt'
 } as const
 

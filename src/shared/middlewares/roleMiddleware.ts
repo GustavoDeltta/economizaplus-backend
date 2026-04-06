@@ -1,5 +1,5 @@
 import { NextFunction } from "express";
-import { UnauthorizedError } from "../errors/api-erros";
+import { UnauthorizedError, ForbiddenError } from "../errors/api-erros";
 import { Request, Response } from "express";
 
 export function roleMiddleware(...allowedRoles: string[]) {
@@ -10,7 +10,7 @@ export function roleMiddleware(...allowedRoles: string[]) {
     }
 
     if (!allowedRoles.includes(req.role)) {
-        throw new UnauthorizedError("Access denied!");
+        throw new ForbiddenError("Access denied!");
     }
 
     next();
