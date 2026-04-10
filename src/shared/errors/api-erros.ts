@@ -30,3 +30,15 @@ export class ForbiddenError extends ApiErrors {
         super(message, 403);
     }
 }
+
+export class InsufficientBalanceError extends ApiErrors {
+    constructor(message: string = "Saldo insuficiente.") {
+        super(message, 400);
+    }
+}
+
+export class ResourceNotFoundError extends ApiErrors {
+    constructor(message: string = "Recurso não encontrado.") {
+        super(message, 404);
+    }
+}

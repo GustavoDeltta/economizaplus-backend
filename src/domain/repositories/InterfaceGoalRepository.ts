@@ -7,6 +7,6 @@ export interface InterfaceGoalRepository {
     findGoal(id: string): Promise<Goal | null>;
     findByIdAndUserId(id: string, userId: string): Promise<Goal | null>;
     findAllByUserId(userId: string): Promise<Goal[]>;
-    update(id: string, name: string, targetAmount: Decimal, currentAmount: Decimal, percentageComplete: Decimal, deadline: Date): Promise<Goal>;
+    update(id: string, name: string, targetAmount: Decimal, currentAmount: Decimal, percentageComplete: Decimal, deadline: Date, tx?: any): Promise<Goal>;
     delete(id: string): Promise<Goal | null>;
 }

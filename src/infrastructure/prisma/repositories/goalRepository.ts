@@ -18,8 +18,9 @@ export class GoalRepository implements InterfaceGoalRepository {
         return new Goal(data.id, data.userId, data.name, data.targetAmount, data.currentAmount, data.percentageComplete, data.deadline);
     }
 
-    async update(id: string, name: string, targetAmount: Decimal, currentAmount: Decimal, percentageComplete: Decimal, deadline: Date): Promise<Goal> {
-        const data = await prisma.goal.update({
+    async update(id: string, name: string, targetAmount: Decimal, currentAmount: Decimal, percentageComplete: Decimal, deadline: Date, tx?: any): Promise<Goal> {
+        const prismaClient = tx || prisma;
+        const data = await prismaClient.goal.update({
             where: { id },
             data: {
                 name,
