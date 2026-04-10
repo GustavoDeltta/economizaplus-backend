@@ -15,6 +15,7 @@ import type { GoogleLoginController } from './interface/controllers/GoogleLoginC
 import type { AIController } from './interface/controllers/AIController';
 import type { WalletController } from './interface/controllers/WalletController';
 import type { TransactionController } from './interface/controllers/TransactionController';
+import type { SavingController } from './interface/controllers/SavingController';
 
 export interface AppControllers {
   userController: UserController;
@@ -26,6 +27,7 @@ export interface AppControllers {
   aiController: AIController;
   walletController: WalletController;
   transactionController: TransactionController;
+  savingController: SavingController;
 }
 
 /**
@@ -46,6 +48,7 @@ export function createApp(controllers?: AppControllers) {
   let aiController: AIController;
   let walletController: WalletController;
   let transactionController: TransactionController;
+  let savingController: SavingController;
 
   if (controllers) {
     // Modo de teste: controllers injetados externamente
@@ -58,6 +61,7 @@ export function createApp(controllers?: AppControllers) {
     aiController = controllers.aiController;
     walletController = controllers.walletController;
     transactionController = controllers.transactionController;
+    savingController = controllers.savingController;
   } else {
     // Modo de produção: factories com Prisma real
     // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -76,6 +80,7 @@ export function createApp(controllers?: AppControllers) {
     const { makeAIController } = require('./infrastructure/factories/MakeAIController');
     const { makeWalletController } = require('./infrastructure/factories/MakeWalletController');
     const { makeTransactionController } = require('./infrastructure/factories/MakeTransactionController');
+    const { makeSavingController } = require('./infrastructure/factories/MakeSavingController');
 
     userController = makeUserController();
     loginController = makeLoginController();
@@ -86,6 +91,7 @@ export function createApp(controllers?: AppControllers) {
     aiController = makeAIController();
     walletController = makeWalletController();
     transactionController = makeTransactionController();
+    savingController = makeSavingController();
   }
 
   // ── Rotas Públicas ────────────────────────────────────────────────────────
@@ -134,6 +140,10 @@ export function createApp(controllers?: AppControllers) {
   app.post('/api/transactions', roleMiddleware('COMMON'), (req, res) => transactionController.create(req, res));
   app.get('/api/transactions', roleMiddleware('COMMON', 'ADMIN'), (req, res) => transactionController.getAll(req, res));
   app.delete('/api/transactions/:id', roleMiddleware('COMMON', 'ADMIN'), (req, res) => transactionController.delete(req, res));
+
+  // ── Rotas Privadas: Savings ────────────────────────────────────────────────
+  app.post('/api/savings', roleMiddleware('COMMON'), (req, res) => savingController.create(req, res));
+  app.get('/api/savings/goal/:goalId', roleMiddleware('COMMON', 'ADMIN'), (req, res) => savingController.getByGoal(req, res));
 
   app.use(errorHandler);
 
