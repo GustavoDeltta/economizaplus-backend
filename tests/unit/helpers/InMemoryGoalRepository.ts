@@ -29,12 +29,28 @@ export class InMemoryGoalRepository implements InterfaceGoalRepository {
   async update(
     id: string,
     name: string,
+    description: string,
+    walletId: string,
     targetAmount: Decimal,
+    currentAmount: Decimal,
+    percentageComplete: Decimal,
     deadline: Date,
+    isCompleted: boolean,
+    tx?: any
   ): Promise<Goal> {
     const index = this.goals.findIndex((g) => g.id === id);
     if (index === -1) throw new Error('Meta não encontrada no repositório em memória');
-    this.goals[index] = { ...this.goals[index], name, targetAmount, deadline };
+    this.goals[index] = { 
+        ...this.goals[index], 
+        name, 
+        description, 
+        walletId, 
+        targetAmount, 
+        currentAmount, 
+        percentageComplete, 
+        deadline, 
+        isCompleted 
+    };
     return this.goals[index];
   }
 

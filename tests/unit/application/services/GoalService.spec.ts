@@ -22,7 +22,7 @@ describe('GoalService', () => {
 
   describe('createGoal', () => {
     it('deve criar uma meta financeira com sucesso', async () => {
-      const result = await goalService.createGoal(USER_A_ID, 'Viagem Europa', TARGET_AMOUNT, DEADLINE);
+      const result = await goalService.createGoal(USER_A_ID, 'Viagem Europa', 'Descrição', 'wallet-uuid', TARGET_AMOUNT, DEADLINE);
 
       expect(result).toMatchObject({
         userId: USER_A_ID,
@@ -32,9 +32,9 @@ describe('GoalService', () => {
     });
 
     it('deve permitir criar múltiplas metas para o mesmo usuário', async () => {
-      await goalService.createGoal(USER_A_ID, 'Comprar Carro', TARGET_AMOUNT, DEADLINE);
+      await goalService.createGoal(USER_A_ID, 'Comprar Carro', 'Descrição', 'wallet-uuid', TARGET_AMOUNT, DEADLINE);
       
-      const result = await goalService.createGoal(USER_A_ID, 'Trocar Celular', TARGET_AMOUNT, DEADLINE);
+      const result = await goalService.createGoal(USER_A_ID, 'Trocar Celular', 'Descrição', 'wallet-uuid', TARGET_AMOUNT, DEADLINE);
 
       expect(result.userId).toBe(USER_A_ID);
       expect(result.name).toBe('Trocar Celular');
@@ -42,8 +42,8 @@ describe('GoalService', () => {
     });
 
     it('deve permitir que usuários diferentes criem metas simultaneamente', async () => {
-      await goalService.createGoal(USER_A_ID, 'Meta A', TARGET_AMOUNT, DEADLINE);
-      const resultB = await goalService.createGoal(USER_B_ID, 'Meta B', TARGET_AMOUNT, DEADLINE);
+      await goalService.createGoal(USER_A_ID, 'Meta A', 'Desc', 'wallet-uuid', TARGET_AMOUNT, DEADLINE);
+      const resultB = await goalService.createGoal(USER_B_ID, 'Meta B', 'Desc', 'wallet-uuid', TARGET_AMOUNT, DEADLINE);
 
       expect(resultB.userId).toBe(USER_B_ID);
       expect(goalRepository.goals).toHaveLength(2);
@@ -54,7 +54,7 @@ describe('GoalService', () => {
 
   describe('updateGoal', () => {
     it('deve atualizar uma meta com sucesso', async () => {
-      const created = await goalService.createGoal(USER_A_ID, 'Meta Original', TARGET_AMOUNT, DEADLINE);
+      const created = await goalService.createGoal(USER_A_ID, 'Meta Original', 'Desc', 'wallet-uuid', TARGET_AMOUNT, DEADLINE);
       const newAmount = new Decimal('10000.00');
       const newDeadline = new Date('2027-06-30');
 
@@ -62,7 +62,10 @@ describe('GoalService', () => {
         created.id,
         USER_A_ID,
         'Meta Atualizada',
+        'Descrição Atualizada',
+        'wallet-uuid',
         newAmount,
+        new Decimal(0),
         newDeadline,
       );
 
@@ -71,16 +74,16 @@ describe('GoalService', () => {
     });
 
     it('deve lançar BadRequestError quando a meta não pertence ao usuário (validação de propriedade)', async () => {
-      const created = await goalService.createGoal(USER_A_ID, 'Minha Meta', TARGET_AMOUNT, DEADLINE);
+      const created = await goalService.createGoal(USER_A_ID, 'Minha Meta', 'Desc', 'wallet-uuid', TARGET_AMOUNT, DEADLINE);
 
       await expect(
-        goalService.updateGoal(created.id, USER_B_ID, 'Invadida', TARGET_AMOUNT, DEADLINE),
+        goalService.updateGoal(created.id, USER_B_ID, 'Invadida', 'Desc', 'wallet-uuid', TARGET_AMOUNT, new Decimal(0), DEADLINE),
       ).rejects.toThrowError(BadRequestError);
     });
 
     it('deve lançar BadRequestError quando a meta não existe', async () => {
       await expect(
-        goalService.updateGoal('id-invalido', USER_A_ID, 'Nome', TARGET_AMOUNT, DEADLINE),
+        goalService.updateGoal('id-invalido', USER_A_ID, 'Nome', 'Desc', 'wallet-uuid', TARGET_AMOUNT, new Decimal(0), DEADLINE),
       ).rejects.toThrowError(BadRequestError);
     });
   });
@@ -89,7 +92,7 @@ describe('GoalService', () => {
 
   describe('deleteGoal', () => {
     it('deve deletar uma meta com sucesso', async () => {
-      const created = await goalService.createGoal(USER_A_ID, 'Meta para deletar', TARGET_AMOUNT, DEADLINE);
+      const created = await goalService.createGoal(USER_A_ID, 'Meta para deletar', 'Desc', 'wallet-uuid', TARGET_AMOUNT, DEADLINE);
 
       await goalService.deleteGoal(created.id, USER_A_ID);
 
@@ -97,7 +100,7 @@ describe('GoalService', () => {
     });
 
     it('deve lançar BadRequestError quando usuário B tenta deletar meta do usuário A (validação de propriedade)', async () => {
-      const created = await goalService.createGoal(USER_A_ID, 'Meta Protegida', TARGET_AMOUNT, DEADLINE);
+      const created = await goalService.createGoal(USER_A_ID, 'Meta Protegida', 'Desc', 'wallet-uuid', TARGET_AMOUNT, DEADLINE);
 
       await expect(goalService.deleteGoal(created.id, USER_B_ID)).rejects.toThrowError(
         BadRequestError,
@@ -118,7 +121,7 @@ describe('GoalService', () => {
 
   describe('getGoalByName', () => {
     it('deve retornar a meta quando encontrada pelo nome', async () => {
-      await goalService.createGoal(USER_A_ID, 'Reserva de Emergência', TARGET_AMOUNT, DEADLINE);
+      await goalService.createGoal(USER_A_ID, 'Reserva de Emergência', 'Desc', 'wallet-uuid', TARGET_AMOUNT, DEADLINE);
 
       const result = await goalService.getGoalByName('Reserva de Emergência');
 
@@ -136,8 +139,8 @@ describe('GoalService', () => {
 
   describe('getAllGoalsByUserId', () => {
     it('deve retornar todas as metas de um usuário específico', async () => {
-      await goalService.createGoal(USER_A_ID, 'Meta A', TARGET_AMOUNT, DEADLINE);
-      await goalService.createGoal(USER_B_ID, 'Meta B', TARGET_AMOUNT, DEADLINE);
+      await goalService.createGoal(USER_A_ID, 'Meta A', 'Desc', 'wallet-uuid', TARGET_AMOUNT, DEADLINE);
+      await goalService.createGoal(USER_B_ID, 'Meta B', 'Desc', 'wallet-uuid', TARGET_AMOUNT, DEADLINE);
 
       const result = await goalService.getAllGoalsByUserId(USER_A_ID);
 

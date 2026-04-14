@@ -7,7 +7,7 @@ import { CategoryResponseDTO } from "../DTO/CategoryResponseDTO";
 export class CategoryService {
     constructor(private categoryRepository: InterfaceCategoryRepository) {}
 
-    async createCategory(userId: string, name: string, color: string): Promise<CategoryResponseDTO> {
+    async createCategory(userId: string, name: string, color: string, icon: string): Promise<CategoryResponseDTO> {
         
         const exists = await this.categoryRepository.findCategory(userId, name);
 
@@ -15,31 +15,33 @@ export class CategoryService {
             throw new BadRequestError("Categoria já existe para este usuário");
         }
 
-        const category = new Category(null, userId, name, color);
+        const category = new Category(null, userId, name, color, icon);
 
         const createdCategory = await this.categoryRepository.create(category);
 
         return {
             id: createdCategory.id,
             name: createdCategory.name,
-            color: createdCategory.color
+            color: createdCategory.color,
+            icon: createdCategory.icon
         };
     }
 
-    async updateCategory(id: string, userId: string, name: string, color: string): Promise<CategoryResponseDTO> {
+    async updateCategory(id: string, userId: string, name: string, color: string, icon: string): Promise<CategoryResponseDTO> {
         const existing = await this.categoryRepository.findByIdAndUserId(id, userId);
         if (!existing) {
             throw new BadRequestError("Categoria não encontrada ou não pertence a você");
         }
 
-        const category = await this.categoryRepository.update(id, name, color);
+        const category = await this.categoryRepository.update(id, name, color, icon);
         if (!category) {
             throw new BadRequestError("Falha na atualização da Categoria");
         }
         return {
             id: category.id,
             name: category.name,
-            color: category.color
+            color: category.color,
+            icon: category.icon
         };
     }
 
@@ -56,7 +58,8 @@ export class CategoryService {
         return {
             id: category.id,
             name: category.name,
-            color: category.color
+            color: category.color,
+            icon: category.icon
         };
     }
 
@@ -68,7 +71,8 @@ export class CategoryService {
         return {
             id: category.id,
             name: category.name,
-            color: category.color
+            color: category.color,
+            icon: category.icon
         };
     }
 
@@ -77,7 +81,8 @@ export class CategoryService {
         return categories.map(category => ({
             id: category.id,
             name: category.name,
-            color: category.color
+            color: category.color,
+            icon: category.icon
         }));
     }
 

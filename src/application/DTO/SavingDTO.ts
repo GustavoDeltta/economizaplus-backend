@@ -22,4 +22,5 @@ export interface UpdatedGoalResponseDTO {
     targetAmount: number;
     currentAmount: number;
     percentageComplete: number;
+    isCompleted: boolean;
 }

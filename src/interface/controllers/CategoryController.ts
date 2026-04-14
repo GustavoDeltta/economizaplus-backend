@@ -5,17 +5,17 @@ export class CategoryController {
     constructor(private categoryService: CategoryService) {}
     async create(req: Request, res: Response) {
         const userId = req.user as string;
-        const { name, color } = req.body;
-        const category = await this.categoryService.createCategory(userId, name, color);
+        const { name, color, icon } = req.body;
+        const category = await this.categoryService.createCategory(userId, name, color, icon);
 
         return res.status(201).json({ category });
     }
 
     async update(req: Request, res: Response) {
         const { id } = req.params as { id: string };
-        const { name, color } = req.body;
+        const { name, color, icon } = req.body;
         const userId = req.user as string;
-        const updatedCategory = await this.categoryService.updateCategory(id, userId, name, color);
+        const updatedCategory = await this.categoryService.updateCategory(id, userId, name, color, icon);
         return res.json(updatedCategory);
     }
 

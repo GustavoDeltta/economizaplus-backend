@@ -20,26 +20,27 @@ describe('CategoryService', () => {
 
   describe('createCategory', () => {
     it('deve criar uma nova categoria com sucesso', async () => {
-      const result = await categoryService.createCategory(USER_A_ID, 'Alimentação', '#FF5733');
+      const result = await categoryService.createCategory(USER_A_ID, 'Alimentação', '#FF5733', 'utensils');
 
       expect(result).toMatchObject({
         name: 'Alimentação',
         color: '#FF5733',
+        icon: 'utensils',
       });
       expect(result.id).toBeDefined();
     });
 
     it('deve lançar BadRequestError quando a categoria já existe para o mesmo usuário', async () => {
-      await categoryService.createCategory(USER_A_ID, 'Alimentação', '#FF5733');
+      await categoryService.createCategory(USER_A_ID, 'Alimentação', '#FF5733', 'utensils');
 
       await expect(
-        categoryService.createCategory(USER_A_ID, 'Alimentação', '#00FF00'),
+        categoryService.createCategory(USER_A_ID, 'Alimentação', '#00FF00', 'utensils'),
       ).rejects.toThrowError(BadRequestError);
     });
 
     it('deve permitir que usuários diferentes criem categorias com o mesmo nome', async () => {
-      await categoryService.createCategory(USER_A_ID, 'Alimentação', '#FF5733');
-      const resultB = await categoryService.createCategory(USER_B_ID, 'Alimentação', '#0000FF');
+      await categoryService.createCategory(USER_A_ID, 'Alimentação', '#FF5733', 'utensils');
+      const resultB = await categoryService.createCategory(USER_B_ID, 'Alimentação', '#0000FF', 'utensils');
 
       expect(resultB.name).toBe('Alimentação');
     });
@@ -49,30 +50,32 @@ describe('CategoryService', () => {
 
   describe('updateCategory', () => {
     it('deve atualizar uma categoria existente com sucesso', async () => {
-      const created = await categoryService.createCategory(USER_A_ID, 'Transporte', '#FFFF00');
+      const created = await categoryService.createCategory(USER_A_ID, 'Transporte', '#FFFF00', 'car');
 
       const updated = await categoryService.updateCategory(
         created.id!,
         USER_A_ID,
         'Transporte Público',
         '#AAAAAA',
+        'bus'
       );
 
       expect(updated.name).toBe('Transporte Público');
       expect(updated.color).toBe('#AAAAAA');
+      expect(updated.icon).toBe('bus');
     });
 
     it('deve lançar BadRequestError ao tentar atualizar categoria inexistente', async () => {
       await expect(
-        categoryService.updateCategory('id-inexistente', USER_A_ID, 'Nova', '#FFF'),
+        categoryService.updateCategory('id-inexistente', USER_A_ID, 'Nova', '#FFF', 'star'),
       ).rejects.toThrowError(BadRequestError);
     });
 
     it('deve lançar BadRequestError quando usuário B tenta atualizar categoria do usuário A (validação de propriedade)', async () => {
-      const created = await categoryService.createCategory(USER_A_ID, 'Lazer', '#123456');
+      const created = await categoryService.createCategory(USER_A_ID, 'Lazer', '#123456', 'smile');
 
       await expect(
-        categoryService.updateCategory(created.id!, USER_B_ID, 'Invadido', '#000'),
+        categoryService.updateCategory(created.id!, USER_B_ID, 'Invadido', '#000', 'smile'),
       ).rejects.toThrowError(BadRequestError);
     });
   });
@@ -81,7 +84,7 @@ describe('CategoryService', () => {
 
   describe('deleteCategory', () => {
     it('deve deletar uma categoria com sucesso', async () => {
-      const created = await categoryService.createCategory(USER_A_ID, 'Saúde', '#00FF00');
+      const created = await categoryService.createCategory(USER_A_ID, 'Saúde', '#00FF00', 'heart');
 
       const deleted = await categoryService.deleteCategory(created.id!, USER_A_ID);
 
@@ -96,7 +99,7 @@ describe('CategoryService', () => {
     });
 
     it('deve lançar BadRequestError quando usuário B tenta deletar categoria do usuário A (validação de propriedade)', async () => {
-      const created = await categoryService.createCategory(USER_A_ID, 'Investimentos', '#8800FF');
+      const created = await categoryService.createCategory(USER_A_ID, 'Investimentos', '#8800FF', 'trending-up');
 
       await expect(
         categoryService.deleteCategory(created.id!, USER_B_ID),
@@ -111,7 +114,7 @@ describe('CategoryService', () => {
 
   describe('getCategoryByName', () => {
     it('deve retornar uma categoria quando encontrada pelo nome', async () => {
-      await categoryService.createCategory(USER_A_ID, 'Educação', '#0055FF');
+      await categoryService.createCategory(USER_A_ID, 'Educação', '#0055FF', 'book');
 
       const result = await categoryService.getCategoryByName(USER_A_ID, 'Educação');
 
@@ -135,9 +138,9 @@ describe('CategoryService', () => {
     });
 
     it('deve retornar todas as categorias do usuário corretamente', async () => {
-      await categoryService.createCategory(USER_A_ID, 'Categoria 1', '#111');
-      await categoryService.createCategory(USER_A_ID, 'Categoria 2', '#222');
-      await categoryService.createCategory(USER_B_ID, 'Categoria do B', '#333');
+      await categoryService.createCategory(USER_A_ID, 'Categoria 1', '#111', 'tag');
+      await categoryService.createCategory(USER_A_ID, 'Categoria 2', '#222', 'tag');
+      await categoryService.createCategory(USER_B_ID, 'Categoria do B', '#333', 'tag');
 
       const result = await categoryService.getAllCategoriesByUserId(USER_A_ID);
 
@@ -146,13 +149,14 @@ describe('CategoryService', () => {
     });
 
     it('deve retornar DTOs sem expor o userId nas respostas', async () => {
-      await categoryService.createCategory(USER_A_ID, 'Moradia', '#ABCDEF');
+      await categoryService.createCategory(USER_A_ID, 'Moradia', '#ABCDEF', 'home');
 
       const [category] = await categoryService.getAllCategoriesByUserId(USER_A_ID);
 
       expect(category).toHaveProperty('id');
       expect(category).toHaveProperty('name');
       expect(category).toHaveProperty('color');
+      expect(category).toHaveProperty('icon');
       expect(category).not.toHaveProperty('userId');
     });
   });
