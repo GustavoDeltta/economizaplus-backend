@@ -1,14 +1,20 @@
 import { Request, Response } from 'express';
 import { UserService } from '../../application/services/UserService';
+import { JwtService } from '../../infrastructure/auth/jwt';
 
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private jwtService: JwtService) {}
   async create(req: Request, res: Response) {
     const { name, email, password, role } = req.body;
     
     const user = await this.userService.createUser(name, email, password, role);
 
-    return res.status(201).json({ user });
+    const token = await this.jwtService.generateToken({
+      id: user.id,
+      role: user.role
+    });
+
+    return res.status(201).json({ user, token });
   }
   
   async getAll(req: Request, res: Response) {
