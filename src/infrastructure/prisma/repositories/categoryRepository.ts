@@ -8,6 +8,7 @@ export class CategoryRepository implements InterfaceCategoryRepository {
             data: {
                 name: category.name,
                 color: category.color,
+                icon: category.icon,
                 user: {
                     connect: { id: category.userId }
                 }
@@ -17,26 +18,29 @@ export class CategoryRepository implements InterfaceCategoryRepository {
             data.id,
             data.userId,
             data.name,
-            data.color
+            data.color,
+            data.icon
         );
 
     }
 
-    async update(id: string, name: string, color: string): Promise<Category> {
+    async update(id: string, name: string, color: string, icon: string): Promise<Category> {
         const data = await prisma.category.update({
             where: {
                 id
             },
             data: {
                 name,
-                color
+                color,
+                icon
             }
         });
         return new Category(
             data.id,
             data.userId,
             data.name,
-            data.color
+            data.color,
+            data.icon
         );
     }
 
@@ -51,7 +55,8 @@ export class CategoryRepository implements InterfaceCategoryRepository {
             data.id,
             data.userId,
             data.name,
-            data.color
+            data.color,
+            data.icon
         );
     }
 
@@ -69,7 +74,8 @@ export class CategoryRepository implements InterfaceCategoryRepository {
             data.id,
             data.userId,
             data.name,
-            data.color
+            data.color,
+            data.icon
         );
     }
 
@@ -83,7 +89,8 @@ export class CategoryRepository implements InterfaceCategoryRepository {
             category.id,
             category.userId,
             category.name,
-            category.color
+            category.color,
+            category.icon
         ));
     }
 
@@ -98,7 +105,8 @@ export class CategoryRepository implements InterfaceCategoryRepository {
             data.id,
             data.userId,
             data.name,
-            data.color
+            data.color,
+            data.icon
         );
     }
 
@@ -114,7 +122,8 @@ export class CategoryRepository implements InterfaceCategoryRepository {
             data.id,
             data.userId,
             data.name,
-            data.color
+            data.color,
+            data.icon
         );
     }
 }

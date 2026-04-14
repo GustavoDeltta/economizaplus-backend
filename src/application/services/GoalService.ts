@@ -7,17 +7,21 @@ import { Decimal } from "@prisma/client/runtime/client";
 export class GoalService {
     constructor(private goalRepository: InterfaceGoalRepository) {}
 
-    async createGoal(userId: string, name: string, targetAmount: Decimal, deadline: Date) {
+    async createGoal(userId: string, name: string, description: string, walletId: string, targetAmount: Decimal | number, deadline: Date) {
+        const targetAmountDecimal = new Decimal(targetAmount);
         // New goals start with zero progress
-        const currentAmount = new Decimal(0);
+        const currentAmountDecimal = new Decimal(0);
         const percentageComplete = new Decimal(0);
 
-        const goal = new Goal(randomUUID(), userId, name, targetAmount, currentAmount, percentageComplete, deadline);
+        const goal = new Goal(randomUUID(), userId, name, description, walletId, targetAmountDecimal, currentAmountDecimal, percentageComplete, deadline, false);
 
         return this.goalRepository.create(goal);
     }
 
-    async updateGoal(id: string, userId: string, name: string, targetAmount: Decimal, currentAmount: Decimal, deadline: Date) {
+    async updateGoal(id: string, userId: string, name: string, description: string, walletId: string, targetAmount: Decimal | number, currentAmount: Decimal | number, deadline: Date, isCompleted?: boolean) {
+        const targetAmountDecimal = new Decimal(targetAmount);
+        const currentAmountDecimal = new Decimal(currentAmount);
+        
         const existing = await this.goalRepository.findByIdAndUserId(id, userId);
         if (!existing) {
             throw new BadRequestError("Meta não encontrada ou não pertence a você");
@@ -25,12 +29,16 @@ export class GoalService {
 
         // Calculate percentage complete
         let percentage = new Decimal(0);
-        if (targetAmount.gt(0)) {
-            percentage = currentAmount.div(targetAmount).mul(100);
+        if (targetAmountDecimal.gt(0)) {
+            percentage = currentAmountDecimal.div(targetAmountDecimal).mul(100);
             if (percentage.gt(100)) percentage = new Decimal(100);
         }
 
-        const goal = await this.goalRepository.update(id, name, targetAmount, currentAmount, percentage, deadline);
+        // Auto-complete logic
+        const autoCompleted = percentage.gte(100);
+        const finalIsCompleted = isCompleted !== undefined ? isCompleted : autoCompleted;
+
+        const goal = await this.goalRepository.update(id, name, description, walletId, targetAmountDecimal, currentAmountDecimal, percentage, deadline, finalIsCompleted);
         if (!goal) {
             throw new BadRequestError("Falha na atualização da meta");
         }

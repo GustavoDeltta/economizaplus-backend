@@ -6,21 +6,21 @@ export class GoalController {
 
     async create(req: Request, res: Response) {
         const userId = req.user as string;
-        const { name, targetAmount, deadline } = req.body;
+        const { name, description, walletId, targetAmount, deadline } = req.body;
 
         const parsedDeadline = new Date(deadline);
         if (isNaN(parsedDeadline.getTime())) {
             return res.status(400).json({ error: "Invalid deadline format. Use ISO 8601 format." });
         }
 
-        const goal = await this.goalService.createGoal(userId, name, targetAmount, parsedDeadline);
+        const goal = await this.goalService.createGoal(userId, name, description, walletId, targetAmount, parsedDeadline);
 
         return res.status(201).json({ goal });
     }
 
     async update(req: Request, res: Response) {
         const { id } = req.params as { id: string };
-        const { name, targetAmount, currentAmount, deadline } = req.body;
+        const { name, description, walletId, targetAmount, currentAmount, deadline, isCompleted } = req.body;
 
         const parsedDeadline = new Date(deadline);
         if (isNaN(parsedDeadline.getTime())) {
@@ -29,7 +29,7 @@ export class GoalController {
 
         const userId = req.user as string;
 
-        const updatedGoal = await this.goalService.updateGoal(id, userId, name, targetAmount, currentAmount, parsedDeadline);
+        const updatedGoal = await this.goalService.updateGoal(id, userId, name, description, walletId, targetAmount, currentAmount, parsedDeadline, isCompleted);
 
         return res.json(updatedGoal);
     }

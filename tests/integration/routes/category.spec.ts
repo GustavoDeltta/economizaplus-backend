@@ -39,7 +39,7 @@ describe('Integração: Categorias', () => {
   it('POST /api/categories - deve criar uma nova categoria', async () => {
     const response = await request(testApp)
       .post('/api/categories')
-      .send({ name: 'Educação', color: '#33FF57' });
+      .send({ name: 'Educação', color: '#33FF57', icon: 'book' });
 
     expect(response.status).toBe(201);
     expect(response.body.category).toHaveProperty('name', 'Educação');
@@ -62,7 +62,7 @@ describe('Integração: Categorias', () => {
 
     const response = await request(testApp)
       .put(`/api/categories/${created.id}`)
-      .send({ name: 'New Name', color: '#FFF' });
+      .send({ name: 'New Name', color: '#FFF', icon: 'star' });
 
     expect(response.status).toBe(200);
     expect(response.body.name).toBe('New Name');

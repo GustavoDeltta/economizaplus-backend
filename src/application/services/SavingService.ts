@@ -45,15 +45,21 @@ export class SavingService {
 
             // Step 4: Update Goal
             const newCurrentAmount = goal.currentAmount.add(amountDecimal);
-            const newPercentage = newCurrentAmount.dividedBy(goal.targetAmount).times(100);
+            let newPercentage = newCurrentAmount.dividedBy(goal.targetAmount).times(100);
+            if (newPercentage.gt(100)) newPercentage = new Decimal(100);
             
+            const isCompleted = newPercentage.gte(100);
+
             const updatedGoal = await this.goalRepository.update(
                 goal.id,
                 goal.name,
+                goal.description,
+                goal.walletId,
                 goal.targetAmount,
                 newCurrentAmount,
                 newPercentage,
                 goal.deadline,
+                isCompleted,
                 tx
             );
 
@@ -78,7 +84,8 @@ export class SavingService {
                 name: updatedGoal.name,
                 targetAmount: Number(updatedGoal.targetAmount),
                 currentAmount: Number(updatedGoal.currentAmount),
-                percentageComplete: Number(updatedGoal.percentageComplete)
+                percentageComplete: Number(updatedGoal.percentageComplete),
+                isCompleted: updatedGoal.isCompleted
             };
         });
     }

@@ -13,10 +13,10 @@ export class InMemoryCategoryRepository implements InterfaceCategoryRepository {
     return newCategory;
   }
 
-  async update(id: string, name: string, color: string): Promise<Category> {
+  async update(id: string, name: string, color: string, icon: string): Promise<Category> {
     const index = this.categories.findIndex((c) => c.id === id);
     if (index === -1) throw new Error('Categoria não encontrada no repositório em memória');
-    this.categories[index] = { ...this.categories[index], name, color };
+    this.categories[index] = { ...this.categories[index], name, color, icon };
     return this.categories[index];
   }
 

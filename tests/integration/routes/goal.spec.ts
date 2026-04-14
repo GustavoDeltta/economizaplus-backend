@@ -41,6 +41,8 @@ describe('Integração: Metas (Goals)', () => {
       .post('/api/goals')
       .send({
         name: 'Viagem Natal',
+        description: 'Férias de fim de ano',
+        walletId: 'wallet-uuid',
         targetAmount: 5000,
         deadline: '2026-12-25'
       });
@@ -66,11 +68,47 @@ describe('Integração: Metas (Goals)', () => {
 
     const response = await request(testApp)
       .put(`/api/goals/${created.id}`)
-      .send({ name: 'Nova', targetAmount: 200, deadline: '2026-06-01' });
+      .send({ 
+        name: 'Nova', 
+        description: 'Nova Desc', 
+        walletId: 'wallet-uuid', 
+        targetAmount: 200, 
+        currentAmount: 0,
+        deadline: '2026-06-01' 
+      });
 
     expect(response.status).toBe(200);
     expect(response.body.name).toBe('Nova');
     expect(goalRepo.goals[0].name).toBe('Nova');
+  });
+
+  it('PUT /api/goals/:id - deve marcar como completada automaticamente ao atingir 100%', async () => {
+    const created = await goalRepo.create({ 
+      id: 'comp-123', 
+      userId: 'user-autenticado-uuid', 
+      name: 'Meta Quase Lá', 
+      description: 'Desc',
+      walletId: 'wallet-1',
+      targetAmount: 100, 
+      currentAmount: 90,
+      deadline: new Date(),
+      isCompleted: false
+    } as any);
+
+    const response = await request(testApp)
+      .put(`/api/goals/${created.id}`)
+      .send({ 
+        name: 'Meta Quase Lá', 
+        description: 'Desc', 
+        walletId: 'wallet-1', 
+        targetAmount: 100, 
+        currentAmount: 100, // reaching 100%
+        deadline: new Date().toISOString() 
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body.isCompleted).toBe(true);
+    expect(goalRepo.goals.find(g => g.id === created.id)?.isCompleted).toBe(true);
   });
 
   it('DELETE /api/goals/:id - deve remover uma meta', async () => {
