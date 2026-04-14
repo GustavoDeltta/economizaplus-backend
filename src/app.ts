@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import 'express-async-errors';
 import express from 'express';
+import cors from 'cors';
 import { errorHandler } from './shared/middlewares/errorHandler';
 import { authMiddleware } from './shared/middlewares/authMiddleware';
 import { roleMiddleware } from './shared/middlewares/roleMiddleware';
@@ -37,6 +38,7 @@ export interface AppControllers {
  */
 export function createApp(controllers?: AppControllers) {
   const app = express();
+  app.use(cors());
   app.use(express.json());
 
   let userController: UserController;
