@@ -1,3 +1,4 @@
+import { env } from "../../shared/env";
 import { BadRequestError } from "../../shared/errors/api-erros";
 import { PromptBuilderService } from "./PrompBuilderService";
 import { GoogleGenAI } from "@google/genai";
@@ -13,7 +14,7 @@ export class AIService {
       throw new BadRequestError("Nenhuma meta fornecida");
     }
 
-    const apiKey = process.env.GOOGLE_GENAI_API_KEY;
+    const apiKey = env.GOOGLE_GENAI_API_KEY;
     if (!apiKey) {
       throw new BadRequestError("Chave da API do Gemini não configurada");
     }

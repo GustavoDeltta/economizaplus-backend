@@ -1,3 +1,4 @@
+import { env } from '../../shared/env';
 import { randomUUID } from 'crypto';
 import jwt from 'jsonwebtoken';
 
@@ -13,14 +14,13 @@ export class JwtService {
         ...payload,
         jti: randomUUID()
       },
-      
-      process.env.JWT_SECRET!,
-      { expiresIn: '8h' }
+      env.JWT_SECRET,
+      { expiresIn: env.JWT_EXPIRES_IN }
     );
   }
 
   async verifyToken(token: string) {
-    return jwt.verify(token, process.env.JWT_SECRET!) as TokenPayload;
+    return jwt.verify(token, env.JWT_SECRET) as TokenPayload;
   }
 
 }

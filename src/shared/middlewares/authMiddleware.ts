@@ -1,3 +1,4 @@
+import { env } from "../env";
 import { Request, Response, NextFunction } from "express";
 import { UnauthorizedError } from "../errors/api-erros";
 import jwt from "jsonwebtoken";
@@ -20,7 +21,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     
     const token = authorization.split(" ")[1];
     
-    const decoded = jwt.verify(token, process.env.JWT_SECRET ?? "");
+    const decoded = jwt.verify(token, env.JWT_SECRET);
 
     if (typeof decoded === "string") {
         throw new UnauthorizedError("Invalid token payload");

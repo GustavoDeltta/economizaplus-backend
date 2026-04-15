@@ -1,14 +1,15 @@
+import { env } from "../../shared/env";
 import { OAuth2Client } from "google-auth-library";
 import { InterfaceGoogleAuthProvider, GooglePayload } from "../../domain/repositories/InterfaceGoogleAuthProvider";
 import { UnauthorizedError } from "../../shared/errors/api-erros";
 
 export class GoogleAuthProvider implements InterfaceGoogleAuthProvider {
-  private client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+  private client = new OAuth2Client(env.GOOGLE_CLIENT_ID);
 
   async verifyToken(idToken: string): Promise<GooglePayload> {
     const ticket = await this.client.verifyIdToken({
       idToken,
-      audience: process.env.GOOGLE_CLIENT_ID,
+      audience: env.GOOGLE_CLIENT_ID,
     });
 
     const payload = ticket.getPayload();
