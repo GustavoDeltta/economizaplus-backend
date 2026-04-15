@@ -10,7 +10,9 @@
     "db:studio": "npx prisma studio",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "build": "tsc",
+    "postinstall": "prisma generate"
   },
   "repository": {
     "type": "git",
