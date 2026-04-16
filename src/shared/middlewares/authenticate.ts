@@ -1,3 +1,4 @@
+import { env } from '../env';
 import type { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { AppError } from '../errors/AppError';
@@ -15,10 +16,7 @@ export function authenticate(req: Request, _res: Response, next: NextFunction): 
     throw new AppError('Token não fornecido', 401);
   }
 
-  const secret = process.env['JWT_SECRET'];
-  if (!secret) {
-    throw new Error('JWT_SECRET is not configured');
-  }
+  const secret = env.JWT_SECRET;
 
   try {
     const payload = jwt.verify(token, secret) as { id: string; email: string; role: string };
