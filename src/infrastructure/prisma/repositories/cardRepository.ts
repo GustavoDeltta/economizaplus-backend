@@ -1,8 +1,7 @@
 import { Card } from "../../../domain/entities/Card";
 import { InterfaceCardRepository } from "../../../domain/repositories/InterfaceCardRepository";
 import { prisma } from "../client";
-import { Prisma } from "../generated/prisma/client";
-import { CardType } from "../generated/prisma/enums";
+import { Prisma, CardType } from "../generated/prisma/client";
 import { BadRequestError } from "../../../shared/errors/api-erros";
 import { Decimal } from "@prisma/client/runtime/client";
 

@@ -4,6 +4,8 @@
   "description": "Repositório Back-end do Economiza+, software de gestão financeira em desenvolvimento como Projeto Integrador no curso de Análise e Desenv. de Sistemas.",
   "main": "index.js",
   "scripts": {
+    "build": "prisma generate && tsc",
+    "postinstall": "prisma generate",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "db:up": "docker-compose up -d",
     "db:migrate": "npx prisma migrate dev",
