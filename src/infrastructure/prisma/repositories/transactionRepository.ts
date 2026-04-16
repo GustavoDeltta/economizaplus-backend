@@ -1,7 +1,7 @@
 import { Transaction } from "../../../domain/entities/Transaction";
 import { InterfaceTransactionRepository } from "../../../domain/repositories/InterfaceTransactionRepository";
 import { prisma } from "../client";
-import { TransactionType, PaymentMethod } from "../generated/prisma/enums";
+import { TransactionType, PaymentMethod } from "../generated/prisma/client";
 
 export class TransactionRepository implements InterfaceTransactionRepository {
     private getPrisma(tx?: any) {

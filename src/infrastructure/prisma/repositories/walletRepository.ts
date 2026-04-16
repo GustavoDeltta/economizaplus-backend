@@ -2,7 +2,7 @@ import { Wallet } from "../../../domain/entities/Wallet";
 import { IWalletRepository } from "../../../domain/repositories/IWalletRepository";
 import { prisma } from "../client";
 import { Decimal } from "@prisma/client/runtime/client";
-import { WalletType } from "../generated/prisma/enums";
+import { WalletType } from "../generated/prisma/client";
 
 export class WalletRepository implements IWalletRepository {
     private getPrisma(tx?: any) {

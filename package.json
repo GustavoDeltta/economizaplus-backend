@@ -11,7 +11,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "build": "tsc",
+    "build": "prisma generate && tsc",
     "postinstall": "prisma generate"
   },
   "repository": {

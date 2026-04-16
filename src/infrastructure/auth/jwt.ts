@@ -9,13 +9,17 @@ type TokenPayload = {
 
 export class JwtService {
   async generateToken(payload: TokenPayload): Promise<string> {
+    const options: jwt.SignOptions = {
+      expiresIn: env.JWT_EXPIRES_IN as any
+    };
+
     return jwt.sign(
       {
         ...payload,
         jti: randomUUID()
       },
       env.JWT_SECRET,
-      { expiresIn: env.JWT_EXPIRES_IN }
+      options
     );
   }
 
