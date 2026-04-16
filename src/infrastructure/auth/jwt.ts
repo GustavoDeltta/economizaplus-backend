@@ -19,7 +19,7 @@ export class JwtService {
         jti: randomUUID()
       },
       env.JWT_SECRET,
-      { expiresIn: env.JWT_EXPIRES_IN }
+      options
     );
   }
 
