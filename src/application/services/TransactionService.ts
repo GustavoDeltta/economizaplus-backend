@@ -15,6 +15,11 @@ export class TransactionService {
     ) {}
 
     async createTransaction(userId: string, dto: CreateTransactionDTO): Promise<TransactionResponseDTO> {
+        const categoryId = dto.categoryId || undefined;
+        const goal_id = dto.goal_id || undefined;
+        const cardId = dto.cardId || undefined;
+        const description = dto.description || undefined;
+
         return await prisma.$transaction(async (tx) => {
             const wallet = await this.walletRepository.findById(dto.walletId);
             if (!wallet || wallet.userId !== userId) {
@@ -45,7 +50,7 @@ export class TransactionService {
                 // Create out transaction
                 const outTransaction = new Transaction(
                     null, userId, wallet.id!, 'TRANSFER', dto.paymentMethod, totalAmount, dto.transactionDate,
-                    dto.categoryId, dto.goal_id, dto.cardId, dto.description || `Transferência para ${destination.name}`
+                    categoryId, goal_id, cardId, description || `Transferência para ${destination.name}`
                 );
                 
                 const created = await this.transactionRepository.create(outTransaction, tx);
@@ -53,7 +58,7 @@ export class TransactionService {
                 // Create in transaction
                 const inTransaction = new Transaction(
                     null, destination.userId, destination.id!, 'TRANSFER', dto.paymentMethod, totalAmount, dto.transactionDate,
-                    dto.categoryId, dto.goal_id, dto.cardId, dto.description || `Transferência de ${wallet.name}`
+                    categoryId, goal_id, cardId, description || `Transferência de ${wallet.name}`
                 );
                 await this.transactionRepository.create(inTransaction, tx);
 
@@ -114,7 +119,7 @@ export class TransactionService {
 
                     const transaction = new Transaction(
                         null, userId, dto.walletId, dto.type, dto.paymentMethod, currentAmount, date,
-                        dto.categoryId, dto.goal_id, dto.cardId, dto.description, true, i, dto.totalInstallments
+                        categoryId, goal_id, cardId, description, true, i, dto.totalInstallments
                     );
 
                     if (i === 1) {
@@ -132,7 +137,7 @@ export class TransactionService {
             } else {
                 const transaction = new Transaction(
                     null, userId, dto.walletId, dto.type, dto.paymentMethod, totalAmount, dto.transactionDate,
-                    dto.categoryId, dto.goal_id, dto.cardId, dto.description
+                    categoryId, goal_id, cardId, description
                 );
                 const created = await this.transactionRepository.create(transaction, tx);
                 return this.toDTO(created);
@@ -186,6 +191,9 @@ export class TransactionService {
             amount: Number(t.amount),
             transactionDate: t.transactionDate,
             description: t.description || null,
+            categoryId: t.categoryId || null,
+            goal_id: t.goal_id || null,
+            cardId: t.cardId || null,
             isInstallment: t.isInstallment,
             installmentNumber: t.installmentNumber || null,
             totalInstallments: t.totalInstallments || null,

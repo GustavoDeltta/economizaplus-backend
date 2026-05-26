@@ -62,13 +62,14 @@ model User {
 
 model Category {
   id        String   @id @default(uuid())
-  userId    String
+  userId    String?
   name      String
   color     String
   icon      String
+  type      String   @default("custom")
   createdAt DateTime @default(now())
 
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
   transactions Transaction[]
 
   @@unique([userId, name])
