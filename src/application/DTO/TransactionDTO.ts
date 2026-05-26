@@ -22,6 +22,9 @@ export interface TransactionResponseDTO {
     amount: number;
     transactionDate: Date;
     description: string | null;
+    categoryId: string | null;
+    goal_id: string | null;
+    cardId: string | null;
     isInstallment: boolean;
     installmentNumber: number | null;
     totalInstallments: number | null;

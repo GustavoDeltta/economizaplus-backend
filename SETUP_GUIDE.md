@@ -85,4 +85,4 @@ A API estará disponível em `http://localhost:3000`. Alterações no código se
 * `npm run dev`: Inicia o servidor de desenvolvimento.
 * `npm run build`: Compila o projeto (usado pela Vercel).
 * `npx prisma studio`: Abre a interface visual do banco de dados (http://localhost:5555).
-* `npx prisma generate`: Regenera o client após mudanças no schema.
+* `npx prisma generate`: Regenera o client após mudanças no schema.
