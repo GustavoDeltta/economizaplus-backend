@@ -21,14 +21,17 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     
     const token = authorization.split(" ")[1];
     
-    const decoded = jwt.verify(token, env.JWT_SECRET);
-
-    if (typeof decoded === "string") {
-        throw new UnauthorizedError("Invalid token payload");
+    let decoded: jwt.JwtPayload;
+    try {
+        const result = jwt.verify(token, env.JWT_SECRET);
+        if (typeof result === "string") throw new UnauthorizedError("Invalid token payload");
+        decoded = result as jwt.JwtPayload;
+    } catch {
+        throw new UnauthorizedError("Token inválido ou expirado");
     }
 
     const payload = decoded as JwtPayload;
-    
+
     const UserRepository = new userRepository();
     const user = await UserRepository.findById(payload.id);
 
