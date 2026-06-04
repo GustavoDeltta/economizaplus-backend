@@ -1,10 +1,10 @@
 import { env } from "../../shared/env";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "./generated/prisma";
-import pg from "pg";
+import { Pool } from "pg";
 
 function createPrismaClient() {
-  const pool = new pg.Pool({
+  const pool = new Pool({
     connectionString: env.DATABASE_URL,
     max: 5,
     idleTimeoutMillis: 0,
