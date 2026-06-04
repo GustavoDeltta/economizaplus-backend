@@ -8,6 +8,10 @@ export class GoalController {
         const userId = req.user as string;
         const { name, description, walletId, targetAmount, deadline } = req.body;
 
+        if (!name || !walletId || !targetAmount || !deadline) {
+            return res.status(400).json({ error: "Campos obrigatórios: name, walletId, targetAmount, deadline." });
+        }
+
         const parsedDeadline = new Date(deadline);
         if (isNaN(parsedDeadline.getTime())) {
             return res.status(400).json({ error: "Invalid deadline format. Use ISO 8601 format." });
