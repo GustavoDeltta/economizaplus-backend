@@ -17,6 +17,7 @@ import type { AIController } from './interface/controllers/AIController';
 import type { WalletController } from './interface/controllers/WalletController';
 import type { TransactionController } from './interface/controllers/TransactionController';
 import type { SavingController } from './interface/controllers/SavingController';
+import type { PasswordRecoveryController } from './interface/controllers/PasswordRecoveryController';
 
 export interface AppControllers {
   userController: UserController;
@@ -29,6 +30,7 @@ export interface AppControllers {
   walletController: WalletController;
   transactionController: TransactionController;
   savingController: SavingController;
+  passwordRecoveryController: PasswordRecoveryController;
 }
 
 /**
@@ -51,6 +53,7 @@ export function createApp(controllers?: AppControllers) {
   let walletController: WalletController;
   let transactionController: TransactionController;
   let savingController: SavingController;
+  let passwordRecoveryController: PasswordRecoveryController;
 
   if (controllers) {
     // Modo de teste: controllers injetados externamente
@@ -64,6 +67,7 @@ export function createApp(controllers?: AppControllers) {
     walletController = controllers.walletController;
     transactionController = controllers.transactionController;
     savingController = controllers.savingController;
+    passwordRecoveryController = controllers.passwordRecoveryController;
   } else {
     // Modo de produção: factories com Prisma real
     // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -83,6 +87,7 @@ export function createApp(controllers?: AppControllers) {
     const { makeWalletController } = require('./infrastructure/factories/MakeWalletController');
     const { makeTransactionController } = require('./infrastructure/factories/MakeTransactionController');
     const { makeSavingController } = require('./infrastructure/factories/MakeSavingController');
+    const { makePasswordRecoveryController } = require('./infrastructure/factories/MakePasswordRecoveryController');
 
     userController = makeUserController();
     loginController = makeLoginController();
@@ -94,12 +99,15 @@ export function createApp(controllers?: AppControllers) {
     walletController = makeWalletController();
     transactionController = makeTransactionController();
     savingController = makeSavingController();
+    passwordRecoveryController = makePasswordRecoveryController();
   }
 
   // ── Rotas Públicas ────────────────────────────────────────────────────────
   app.post('/api/users/register', (req, res) => userController.create(req, res));
   app.post('/api/login', (req, res) => loginController.login(req, res));
   app.post('/api/login/google', (req, res) => googleLoginController.login(req, res));
+  app.post('/api/auth/forgot-password', (req, res) => passwordRecoveryController.forgotPassword(req, res));
+  app.post('/api/auth/reset-password', (req, res) => passwordRecoveryController.resetPassword(req, res));
 
   // ── Middleware de Autenticação ─────────────────────────────────────────────
   app.use(authMiddleware);

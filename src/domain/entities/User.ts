@@ -4,6 +4,9 @@ export class User {
     public name: string,
     public email: string,
     public password: string,
-    public role: string
+    public role: string,
+    public authProvider: 'LOCAL' | 'GOOGLE' = 'LOCAL',
+    public passwordResetCode?: string | null,
+    public passwordResetExpiresAt?: Date | null
   ) { }
 }

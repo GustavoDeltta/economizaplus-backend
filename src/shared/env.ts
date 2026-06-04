@@ -8,7 +8,7 @@ const envSchema = z.object({
   JWT_SECRET: z.string().min(1),
   JWT_EXPIRES_IN: z.string().default('7d'),
   GOOGLE_CLIENT_ID: z.string().optional(),
-  GOOGLE_GENAI_API_KEY: z.string().optional(),
+  GOOGLE_GENAI_API_KEY: z.string(),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
 });
 
