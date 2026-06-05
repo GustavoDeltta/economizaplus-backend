@@ -21,7 +21,8 @@ COPY . .
 # Gera o client novamente para garantir sincronia com possíveis mudanças no resto do projeto
 RUN npx prisma generate
 
-# Estágio de desenvolvimento com hot-reload
 FROM base AS dev
+
 EXPOSE 3000
+
 CMD ["npm", "run", "dev"]

@@ -39,6 +39,7 @@ enum WalletType {
   SAVINGS_ACCOUNT
   CASH
   INVESTMENT
+  GOAL
 }
 
 enum AuthProvider {
@@ -63,6 +64,7 @@ model User {
   transactions    Transaction[]
   cards           Card[]
   contentProgress UserContentProgress[]
+  aiGenerations   AIGeneration[]
   savings         Saving[]
 
   @@map("users")
@@ -180,6 +182,17 @@ model EducationalContent {
   userProgress UserContentProgress[]
 
   @@map("educational_contents")
+}
+
+model AIGeneration {
+  id        String   @id @default(uuid())
+  userId    String
+  response  String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("ai_generations")
 }
 
 model UserContentProgress {
