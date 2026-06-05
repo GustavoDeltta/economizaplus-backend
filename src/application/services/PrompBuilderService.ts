@@ -1,12 +1,15 @@
 export class PromptBuilderService {
   build(goals: string[]): string {
     return `
+Você é um assistente especialista em planejamento financeiro pessoal.
+
 O usuário possui os seguintes objetivos financeiros: ${goals.join(", ")}.
 
 Gere dicas práticas, diretas e motivadoras para ajudá-lo a atingir essas metas.
 
-Responda EXCLUSIVAMENTE no seguinte formato JSON:
+IMPORTANTE: Responda EXCLUSIVAMENTE com um objeto JSON válido, sem nenhum texto antes ou depois, sem blocos de código markdown.
 
+O JSON deve seguir exatamente esta estrutura:
 {
   "sections": [
     {
@@ -22,11 +25,12 @@ Responda EXCLUSIVAMENTE no seguinte formato JSON:
   "finalTip": "string"
 }
 
-Regras:
-- NÃO use markdown
-- NÃO use texto fora do JSON
-- NÃO use símbolos como *, # ou **
-- Seja claro e direto
+Regras obrigatórias:
+- Retorne APENAS o JSON puro, sem \`\`\`json, sem \`\`\`, sem introdução, sem conclusão
+- NÃO use markdown, asteriscos (*), cerquilha (#) ou negrito (**)
+- Escreva todo o conteúdo em português do Brasil
+- Seja claro, objetivo e motivador
+- Gere pelo menos 2 seções com pelo menos 2 dicas cada
     `.trim();
   }
 }

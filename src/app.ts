@@ -131,6 +131,7 @@ export function createApp(controllers?: AppControllers) {
 
   // ── Rotas Privadas: AI ─────────────────────────────────────────────────────
   app.post('/api/ai/tips', roleMiddleware('COMMON', 'ADMIN'), (req, res) => aiController.generateTips(req, res));
+  app.get('/api/ai/tips', roleMiddleware('COMMON', 'ADMIN'), (req, res) => aiController.getTips(req, res));
 
   // ── Rotas Privadas: Wallets ────────────────────────────────────────────────
   app.post('/api/wallets', roleMiddleware('COMMON'), (req, res) => walletController.create(req, res));
