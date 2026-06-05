@@ -29,7 +29,8 @@ export class GoogleLoginService {
           googlePayload.name,
           googlePayload.email,
           randomPassword,
-          "COMMON"
+          "COMMON",
+          "GOOGLE"
         )
       );
     }

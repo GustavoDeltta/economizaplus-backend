@@ -10,11 +10,11 @@ export class InMemoryCardRepository implements InterfaceCardRepository {
         return card;
     }
 
-    async update(id: string, userId: string, name: string, brand: string, last4digits: string, limit: Decimal | null, type: string): Promise<Card> {
+    async update(id: string, userId: string, name: string, brand: string, last4digits: string, limitTotal: Decimal | null, limitRemaining: Decimal | null, closingDay: number | null, dueDay: number | null, type: string): Promise<Card> {
         const index = this.cards.findIndex(c => c.id === id);
         if (index === -1) throw new Error("Card not found");
         
-        const updatedCard = new Card(id, userId, name, brand, last4digits, limit, type);
+        const updatedCard = new Card(id, userId, name, brand, last4digits, limitTotal, limitRemaining, closingDay, dueDay, type);
         this.cards[index] = updatedCard;
         return updatedCard;
     }

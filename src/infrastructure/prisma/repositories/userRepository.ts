@@ -10,7 +10,9 @@ export class userRepository implements InterfaceUserRepository {
         id: user.id,
         name: user.name,
         email: user.email,
-        passwordHash: user.password
+        passwordHash: user.password,
+        role: user.role as any,
+        authProvider: user.authProvider as any
       }
     });
 
@@ -19,7 +21,10 @@ export class userRepository implements InterfaceUserRepository {
       data.name,
       data.email,
       data.passwordHash,
-      data.role
+      data.role,
+      data.authProvider,
+      data.passwordResetCode,
+      data.passwordResetExpiresAt
     );
   }
 
@@ -35,7 +40,10 @@ export class userRepository implements InterfaceUserRepository {
       data.name,
       data.email,
       data.passwordHash,
-      data.role
+      data.role,
+      data.authProvider,
+      data.passwordResetCode,
+      data.passwordResetExpiresAt
     );
   }
 
@@ -51,7 +59,10 @@ export class userRepository implements InterfaceUserRepository {
       data.name,
       data.email,
       data.passwordHash,
-      data.role
+      data.role,
+      data.authProvider,
+      data.passwordResetCode,
+      data.passwordResetExpiresAt
     );
   }
 
@@ -67,21 +78,25 @@ export class userRepository implements InterfaceUserRepository {
       data.name,
       data.email,
       data.passwordHash,
-      data.role
+      data.role,
+      data.authProvider,
+      data.passwordResetCode,
+      data.passwordResetExpiresAt
     );
   }
 
   async findAll(): Promise<User[]> {
     const data = await prisma.user.findMany();
 
-    console.log(data);
-
     return data.map(user => new User(
       user.id,
       user.name,
       user.email,
       user.passwordHash,
-      user.role
+      user.role,
+      user.authProvider,
+      user.passwordResetCode,
+      user.passwordResetExpiresAt
     ));
   }
 
@@ -96,8 +111,32 @@ export class userRepository implements InterfaceUserRepository {
       data.name,
       data.email,
       data.passwordHash,
-      data.role
+      data.role,
+      data.authProvider,
+      data.passwordResetCode,
+      data.passwordResetExpiresAt
     );
+  }
+
+  async updateResetCode(userId: string, codeHash: string | null, expiresAt: Date | null): Promise<void> {
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        passwordResetCode: codeHash,
+        passwordResetExpiresAt: expiresAt
+      }
+    });
+  }
+
+  async updatePassword(userId: string, passwordHash: string): Promise<void> {
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        passwordHash: passwordHash,
+        passwordResetCode: null,
+        passwordResetExpiresAt: null
+      }
+    });
   }
 
   async delete(id: string): Promise<User>{
@@ -110,7 +149,10 @@ export class userRepository implements InterfaceUserRepository {
       data.name,
       data.email,
       data.passwordHash,
-      data.role
+      data.role,
+      data.authProvider,
+      data.passwordResetCode,
+      data.passwordResetExpiresAt
     );
   }
 }

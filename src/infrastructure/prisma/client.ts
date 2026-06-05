@@ -1,10 +1,22 @@
 import { env } from "../../shared/env";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "./generated/prisma/client";
+import { PrismaClient } from "./generated/prisma";
 
-const connectionString = `${env.DATABASE_URL}`;
+function createPrismaClient() {
+  const adapter = new PrismaPg({
+    connectionString: env.DATABASE_URL,
+    max: 5,
+    idleTimeoutMillis: 0,
+    connectionTimeoutMillis: 5000,
+  });
+  return new PrismaClient({ adapter });
+}
 
-const adapter = new PrismaPg({ connectionString });
-const prisma = new PrismaClient({ adapter });
+let prisma = createPrismaClient();
+
+export function resetPrismaClient() {
+  prisma.$disconnect().catch(() => {});
+  prisma = createPrismaClient();
+}
 
 export { prisma };
