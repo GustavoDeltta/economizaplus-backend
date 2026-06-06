@@ -8,6 +8,7 @@ import { roleMiddleware } from './shared/middlewares/roleMiddleware';
 
 // Tipos dos controllers para injeção nos testes
 import type { UserController } from './interface/controllers/UserController';
+import type { AdminController } from './interface/controllers/AdminController';
 import type { LoginController } from './interface/controllers/LoginController';
 import type { CategoryController } from './interface/controllers/CategoryController';
 import type { GoalController } from './interface/controllers/GoalController';
@@ -21,6 +22,7 @@ import type { PasswordRecoveryController } from './interface/controllers/Passwor
 
 export interface AppControllers {
   userController: UserController;
+  adminController: AdminController;
   loginController: LoginController;
   categoryController: CategoryController;
   goalController: GoalController;
@@ -44,6 +46,7 @@ export function createApp(controllers?: AppControllers) {
   app.use(express.json());
 
   let userController: UserController;
+  let adminController: AdminController;
   let loginController: LoginController;
   let categoryController: CategoryController;
   let goalController: GoalController;
@@ -58,6 +61,7 @@ export function createApp(controllers?: AppControllers) {
   if (controllers) {
     // Modo de teste: controllers injetados externamente
     userController = controllers.userController;
+    adminController = controllers.adminController;
     loginController = controllers.loginController;
     categoryController = controllers.categoryController;
     goalController = controllers.goalController;
@@ -72,6 +76,8 @@ export function createApp(controllers?: AppControllers) {
     // Modo de produção: factories com Prisma real
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const { makeUserController } = require('./infrastructure/factories/MakeUserController');
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { makeAdminController } = require('./infrastructure/factories/MakeAdminController');
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const { makeLoginController } = require('./infrastructure/factories/MakeLoginController');
     // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -90,6 +96,7 @@ export function createApp(controllers?: AppControllers) {
     const { makePasswordRecoveryController } = require('./infrastructure/factories/MakePasswordRecoveryController');
 
     userController = makeUserController();
+    adminController = makeAdminController();
     loginController = makeLoginController();
     categoryController = makeCategoryController();
     goalController = makeGoalController();
@@ -117,6 +124,9 @@ export function createApp(controllers?: AppControllers) {
   app.get('/api/users/profile', roleMiddleware('COMMON', 'ADMIN'), (req, res) => userController.getProfile(req, res));
   app.put('/api/users/profile', roleMiddleware('COMMON'), (req, res) => userController.update(req, res));
   app.delete('/api/users/profile', roleMiddleware('COMMON'), (req, res) => userController.delete(req, res));
+
+  // ── Rotas Privadas: Admin ──────────────────────────────────────────────────
+  app.get('/api/admin/stats', roleMiddleware('ADMIN'), (req, res) => adminController.getStats(req, res));
 
   // ── Rotas Privadas: Categories ─────────────────────────────────────────────
   app.post('/api/categories', roleMiddleware('COMMON'), (req, res) => categoryController.create(req, res));
