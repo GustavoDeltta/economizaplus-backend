@@ -76,6 +76,11 @@ export class TransactionRepository implements InterfaceTransactionRepository {
         return this.toEntity(data);
     }
 
+    async findAll(): Promise<Transaction[]> {
+        const data = await prisma.transaction.findMany();
+        return data.map(t => this.toEntity(t));
+    }
+
     private toEntity(data: any): Transaction {
         return new Transaction(
             data.id,
