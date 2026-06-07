@@ -11,11 +11,11 @@ export class userRepository implements InterfaceUserRepository {
       data.email,
       data.passwordHash,
       data.role,
-      data.authProvider,
-      data.passwordResetCode,
-      data.passwordResetExpiresAt,
-      data.plan      ?? 'BASIC',    
-      data.createdAt ?? new Date(), 
+      data.plan          ?? 'BASIC', 
+      data.authProvider  ?? 'LOCAL', 
+      data.passwordResetCode,       
+      data.passwordResetExpiresAt,   
+      data.createdAt,               
     );
   }
  
@@ -60,7 +60,14 @@ export class userRepository implements InterfaceUserRepository {
     const data = await prisma.user.update({ where: { id }, data: { name, email } });
     return this.toEntity(data);
   }
- 
+  async updateRole(id: string, role: 'COMMON' | 'ADMIN'): Promise<void> {
+    await prisma.user.update({ where: { id }, data: { role } });
+  }
+  
+  async updatePlan(id: string, plan: string): Promise<void> {
+    await prisma.user.update({ where: { id }, data: { plan } });
+  }
+
   async updateResetCode(userId: string, codeHash: string | null, expiresAt: Date | null): Promise<void> {
     await prisma.user.update({
       where: { id: userId },

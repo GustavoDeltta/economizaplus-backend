@@ -126,7 +126,11 @@ export function createApp(controllers?: AppControllers) {
   app.delete('/api/users/profile', roleMiddleware('COMMON'), (req, res) => userController.delete(req, res));
 
   // ── Rotas Privadas: Admin ──────────────────────────────────────────────────
-  app.get('/api/admin/stats', roleMiddleware('ADMIN'), (req, res) => adminController.getStats(req, res));
+  app.get('/api/admin/stats',        roleMiddleware('ADMIN'), (req, res) => adminController.getStats(req, res));
+  app.get('/api/admin/users',        roleMiddleware('ADMIN'), (req, res) => adminController.getAllUsers(req, res));
+  app.get('/api/admin/users/:id',    roleMiddleware('ADMIN'), (req, res) => adminController.getUserById(req, res));
+  app.put('/api/admin/users/:id',    roleMiddleware('ADMIN'), (req, res) => adminController.updateUser(req, res));
+  app.delete('/api/admin/users/:id', roleMiddleware('ADMIN'), (req, res) => adminController.deleteUser(req, res));
 
   // ── Rotas Privadas: Categories ─────────────────────────────────────────────
   app.post('/api/categories', roleMiddleware('COMMON'), (req, res) => categoryController.create(req, res));

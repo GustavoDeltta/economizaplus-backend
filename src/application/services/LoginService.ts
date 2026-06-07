@@ -27,10 +27,16 @@ export class LoginService {
         role: user.role
       });
 
-    return { token, user: user.name };
+    return {
+      token,
+      user: {
+        id:        user.id,
+        name:      user.name,
+        email:     user.email,
+        role:      user.role,  
+        plan:      user.plan,
+        createdAt: user.createdAt
+      },
+    };
   }
-
-  // async logout() {
-
-  // }
 }

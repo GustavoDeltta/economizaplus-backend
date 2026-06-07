@@ -31,7 +31,9 @@ export class UserService {
       id: user.id,
       name: user.name,
       email: user.email,
-      role: user.role
+      role: user.role,
+      plan: user.plan,
+      createdAt: user.createdAt
     };
   }
 
@@ -84,7 +86,12 @@ export class UserService {
       name: deletedUser.name,
       email: deletedUser.email,
       password: deletedUser.password,
-      role: deletedUser.role
+      role: deletedUser.role,
+      plan: deletedUser.plan,
+      authProvider: deletedUser.authProvider,
+      passwordResetCode: deletedUser.passwordResetCode,
+      passwordResetExpiresAt: deletedUser.passwordResetExpiresAt,
+      createdAt: deletedUser.createdAt
     };
   }
 }
