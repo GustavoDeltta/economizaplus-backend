@@ -15,6 +15,12 @@ async function main() {
     { name: "Transporte", icon: "car", color: "#FB7185", type: "default" },
     { name: "Comida", icon: "cutlery", color: "#F97316", type: "default" },
     { name: "Saúde", icon: "heartbeat", color: "#EF4444", type: "default" },
+    {
+      name: "Fatura do Cartão",
+      icon: "credit-card",
+      color: "#6366F1",
+      type: "default",
+    },
   ];
 
   for (const category of defaultCategories) {

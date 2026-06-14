@@ -12,6 +12,7 @@ export class Card {
     public closingDay: number | null,
     public dueDay: number | null,
     public type: string,
+    public walletId: string | null,
     public transactions?: any[],
   ) {}
 }

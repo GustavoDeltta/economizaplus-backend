@@ -21,6 +21,7 @@ export class CardRepository implements InterfaceCardRepository {
         closingDay: card.closingDay,
         dueDay: card.dueDay,
         type: card.type as CardType,
+        walletId: card.walletId ?? null,
       },
     });
     return new Card(
@@ -34,8 +35,10 @@ export class CardRepository implements InterfaceCardRepository {
       data.closingDay,
       data.dueDay,
       data.type,
+      data.walletId ?? null,
     );
   }
+
   async update(
     id: string,
     userId: string,
@@ -47,26 +50,25 @@ export class CardRepository implements InterfaceCardRepository {
     closingDay: number | null,
     dueDay: number | null,
     type: string,
+    walletId: string | null,
   ): Promise<Card> {
-    const card = await prisma.card.findFirst({
-      where: { id },
-    });
+    const card = await prisma.card.findFirst({ where: { id } });
     if (!card) throw new BadRequestError("Cartão nao encontrado");
     if (card.userId !== userId)
       throw new BadRequestError("Cartão nao pertence ao usuário");
+
     const data = await prisma.card.update({
-      where: {
-        id,
-      },
+      where: { id },
       data: {
         name,
         brand,
-        last4Digits: last4Digits,
+        last4Digits,
         limitTotal,
         limitRemaining,
         closingDay,
         dueDay,
         type: type as CardType,
+        walletId: walletId ?? null,
       },
     });
 
@@ -81,28 +83,20 @@ export class CardRepository implements InterfaceCardRepository {
       data.closingDay,
       data.dueDay,
       data.type,
+      data.walletId ?? null,
     );
   }
+
   async delete(id: string, userId: string): Promise<Card | null> {
-    const data = await prisma.card.findFirst({
-      where: {
-        id,
-        userId,
-      },
-    });
-    if (!data) {
+    const data = await prisma.card.findFirst({ where: { id, userId } });
+    if (!data)
       throw new BadRequestError("Cartão não encontrado ou sem permissão");
-    }
-    await prisma.card.delete({
-      where: { id },
-    });
+    await prisma.card.delete({ where: { id } });
     return data;
   }
-  async findCard(id: string): Promise<Card | null> {
-    const data = await prisma.card.findUnique({
-      where: { id },
-    });
 
+  async findCard(id: string): Promise<Card | null> {
+    const data = await prisma.card.findUnique({ where: { id } });
     if (!data) return null;
     return new Card(
       data.id,
@@ -115,16 +109,15 @@ export class CardRepository implements InterfaceCardRepository {
       data.closingDay,
       data.dueDay,
       data.type,
+      data.walletId ?? null,
     );
   }
+
   async findAllByUserId(userId: string): Promise<Card[]> {
     const data = await prisma.card.findMany({
       where: { userId },
       include: {
-        transactions: {
-          orderBy: { transactionDate: "desc" },
-          take: 20,
-        },
+        transactions: { orderBy: { transactionDate: "desc" }, take: 20 },
       },
     });
 
@@ -140,6 +133,7 @@ export class CardRepository implements InterfaceCardRepository {
         card.closingDay,
         card.dueDay,
         card.type,
+        card.walletId ?? null,
       );
       c.transactions = card.transactions;
       return c;
@@ -151,13 +145,9 @@ export class CardRepository implements InterfaceCardRepository {
     last4Digits: string,
   ): Promise<Card | null> {
     const data = await prisma.card.findFirst({
-      where: {
-        userId,
-        last4Digits,
-      },
+      where: { userId, last4Digits },
     });
     if (!data) return null;
-
     return new Card(
       data.id,
       data.userId,
@@ -169,6 +159,7 @@ export class CardRepository implements InterfaceCardRepository {
       data.closingDay,
       data.dueDay,
       data.type,
+      data.walletId ?? null,
     );
   }
 
@@ -193,6 +184,7 @@ export class CardRepository implements InterfaceCardRepository {
       data.closingDay,
       data.dueDay,
       data.type,
+      data.walletId ?? null,
     );
   }
 }
