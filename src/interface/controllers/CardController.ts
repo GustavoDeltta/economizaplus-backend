@@ -15,6 +15,7 @@ export class CardController {
       closingDay,
       dueDay,
       type,
+      walletId,
     } = req.body;
 
     const card = await this.cardService.createCard(
@@ -27,6 +28,7 @@ export class CardController {
       closingDay,
       dueDay,
       type,
+      walletId ?? null,
     );
 
     return res.status(201).json({ card });
@@ -61,6 +63,7 @@ export class CardController {
       closingDay,
       dueDay,
       type,
+      walletId,
     } = req.body;
 
     const card = await this.cardService.updateCard(
@@ -74,6 +77,7 @@ export class CardController {
       closingDay,
       dueDay,
       type,
+      walletId ?? null,
     );
 
     return res.json(card);

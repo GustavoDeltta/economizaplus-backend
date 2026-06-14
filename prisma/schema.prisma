@@ -7,7 +7,7 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
+  provider = "postgresql"
 }
 
 enum Role {
@@ -48,16 +48,16 @@ enum AuthProvider {
 }
 
 model User {
-  id                     String        @id @default(uuid())
+  id                     String       @id @default(uuid())
   name                   String
-  email                  String        @unique
+  email                  String       @unique
   passwordHash           String
-  role                   Role          @default(COMMON)
-  authProvider           AuthProvider  @default(LOCAL)
+  role                   Role         @default(COMMON)
+  authProvider           AuthProvider @default(LOCAL)
   passwordResetCode      String?
   passwordResetExpiresAt DateTime?
-  plan                   String        @default("BASIC")
-  createdAt              DateTime      @default(now())
+  plan                   String       @default("BASIC")
+  createdAt              DateTime     @default(now())
 
   wallets         Wallet[]
   categories      Category[]
@@ -80,7 +80,7 @@ model Category {
   type      String   @default("custom")
   createdAt DateTime @default(now())
 
-  user         User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
   transactions Transaction[]
 
   @@unique([userId, name])
@@ -111,6 +111,7 @@ model Goal {
 model Card {
   id             String   @id @default(uuid())
   userId         String
+  walletId       String?
   name           String
   brand          String
   last4Digits    String
@@ -122,6 +123,7 @@ model Card {
   createdAt      DateTime @default(now())
 
   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  wallet       Wallet?       @relation(fields: [walletId], references: [id], onDelete: SetNull)
   transactions Transaction[]
 
   @@unique([userId, last4Digits])
@@ -140,6 +142,7 @@ model Wallet {
   transactions Transaction[]
   savings      Saving[]
   goals        Goal[]
+  card         Card[]
 
   @@map("wallets")
 }

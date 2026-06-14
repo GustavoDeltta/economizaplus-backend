@@ -17,16 +17,15 @@ export class CardService {
     closingDay: number | null,
     dueDay: number | null,
     type: string,
+    walletId: string | null,
   ) {
     const exists = await this.cardRepository.findByLast4Digits(
       userId,
       last4Digits,
     );
-    if (exists) {
+    if (exists)
       throw new BadRequestError("Cartão já cadastrado para esse usuário");
-    }
 
-    // If limitRemaining is not provided, default it to limitTotal
     const remaining = limitRemaining ?? limitTotal;
 
     const newCard = new Card(
@@ -40,6 +39,7 @@ export class CardService {
       closingDay,
       dueDay,
       type,
+      walletId,
     );
 
     return this.cardRepository.create(newCard);
@@ -71,6 +71,7 @@ export class CardService {
     closingDay: number | null,
     dueDay: number | null,
     type: string,
+    walletId: string | null,
   ) {
     const exists = await this.cardRepository.findCard(id);
     if (!exists) {
@@ -107,6 +108,7 @@ export class CardService {
       closingDay,
       dueDay,
       type,
+      walletId,
     );
 
     return card;
