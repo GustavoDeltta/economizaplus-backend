@@ -38,10 +38,17 @@ export class UserController {
     return res.json(updatedUser);
   }
 
+  async updatePlan(req: Request, res: Response) {
+    const userId = req.user;
+    const { plan } = req.body;
+    await this.userService.updatePlan(userId, plan);
+    return res.json({ message: "Plano atualizado com sucesso" });
+  }
+
   async delete(req: Request, res: Response) {
     const userId = req.user;
     const deletedUser = await this.userService.deleteUser(userId);
-    
-    return res.json(deletedUser); 
+
+    return res.json(deletedUser);
   }
 }

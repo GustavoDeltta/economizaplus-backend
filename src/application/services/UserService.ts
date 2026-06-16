@@ -58,6 +58,12 @@ export class UserService {
     }));
   }
 
+  async updatePlan(userId: string, plan: string): Promise<void> {
+    const user = await this.userRepository.findById(userId);
+    if (!user) throw new NotFoundError("Usuário não encontrado");
+    await this.userRepository.updatePlan(userId, plan);
+  }
+
   async updateUser(id: string, name: string, email: string): Promise<UserResponseDTO> {
     const user = await this.userRepository.findById(id);
 

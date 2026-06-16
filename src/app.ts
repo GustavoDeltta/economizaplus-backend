@@ -164,6 +164,9 @@ export function createApp(controllers?: AppControllers) {
   app.delete("/api/users/profile", roleMiddleware("COMMON"), (req, res) =>
     userController.delete(req, res),
   );
+  app.patch("/api/users/plan", roleMiddleware("COMMON"), (req, res) =>
+    userController.updatePlan(req, res),
+  );
 
   // ── Rotas Privadas: Admin ──────────────────────────────────────────────────
   app.get("/api/admin/stats", roleMiddleware("ADMIN"), (req, res) =>
