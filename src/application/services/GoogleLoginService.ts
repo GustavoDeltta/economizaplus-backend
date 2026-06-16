@@ -37,6 +37,16 @@ export class GoogleLoginService {
 
     const token = await this.jwtService.generateToken({ id: user.id, role: user.role });
 
-    return { token, user: user.name };
+    return {
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        plan: user.plan,
+        createdAt: user.createdAt,
+      },
+    };
   }
 }
